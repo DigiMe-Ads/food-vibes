@@ -31,7 +31,7 @@ export default function Navbar() {
         {/* Logo */}
         <Link to="/" className="flex items-center">
           <img
-            src="/images/logo-gold.png"
+            src="/images/food-vibes-logo-gold.png"
             alt="Food Vibes Restaurant &amp; Bar"
             className="h-10 w-auto sm:h-11"
           />

@@ -3,24 +3,24 @@ import Placeholder from '../Placeholder'
 
 const FEATURES = [
   {
-    img: '/images/home/wood-fire-pizza.jpg',
-    label: 'Wood-fired pizza',
-    text: 'Authentic wood-fired pizza, fresh from the oven.',
+    img: '/images/home/live-flame-cooking.jpg',
+    label: 'Live Flame Cooking',
+    text: 'Dramatic tableside flambe and open-flame cooking, prepared fresh right before your eyes.',
   },
   {
-    img: '/images/home/live-music.jpg',
+    img: '/images/home/live-music-night.jpg',
     label: 'Live music',
     text: 'Live Music Every Thursday, Friday, and Saturday - Good food, good drinks, and live music from 6 PM, one of Unawatuna\'s favorite weekly traditions.',
   },
   {
-    img: '/images/home/full-bar.jpg',
+    img: '/images/home/restaurant-bar-shelf.jpg',
     label: 'Full bar',
     text: 'Full Bar & Handcrafted Cocktails, cold beer, and fresh juices to go with every dish.',
   },
   {
-    img: '/images/home/international-cousine.jpg',
+    img: '/images/home/shrimp-pasta-dish.jpg',
     label: 'International cuisine',
-    text: 'International Cousins',
+    text: 'International favorites made fresh, from handmade pasta to seafood classics.',
   },
 ]
 

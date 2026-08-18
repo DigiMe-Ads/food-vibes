@@ -10,7 +10,7 @@ export default function Hero() {
             photo fails to load */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#2b2620] via-[#1a1712] to-[#0d0b08]" />
         <img
-          src="/images/about/about-hero.jpg"
+          src="/images/about/food-vibes-restaurant-interior.jpg"
           alt=""
           className="absolute inset-0 h-full w-full object-cover"
           onError={(e) => {

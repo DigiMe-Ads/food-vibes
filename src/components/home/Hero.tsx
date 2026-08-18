@@ -12,7 +12,7 @@ export default function Hero() {
             shows if the photo fails to load */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#2b2620] via-[#1a1712] to-[#0d0b08]" />
         <img
-          src="/images/home/home-hero.jpg"
+          src="/images/home/unawatuna-restaurant-dining-hero.jpg"
           alt=""
           className="absolute inset-0 h-full w-full animate-kenburns object-cover"
           onError={(e) => {
@@ -25,7 +25,7 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-3xl px-6 text-center text-white">
         <img
-          src="/images/logo-white.png"
+          src="/images/food-vibes-logo-white.png"
           alt="Food Vibes Restaurant &amp; Bar"
           className="mx-auto h-20 w-auto animate-fade-up sm:h-24 md:h-28"
         />

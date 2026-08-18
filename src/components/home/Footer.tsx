@@ -2,10 +2,10 @@ import Placeholder from '../Placeholder'
 
 const SOCIALS = ['Facebook', 'Instagram', 'X', 'YouTube']
 const GALLERY = [
-  '/images/gallery-1.jpg',
-  '/images/gallery-2.jpg',
-  '/images/gallery-3.jpg',
-  '/images/gallery-4.jpg',
+  '/images/gallery/food-vibes-signage.jpg',
+  '/images/gallery/chocolate-dessert-plate.jpg',
+  '/images/gallery/tropical-cocktail-drink.jpg',
+  '/images/gallery/bar-shelf-bottles.jpg',
 ]
 
 export default function Footer() {
@@ -15,7 +15,7 @@ export default function Footer() {
         {/* Logo */}
         <div className="mb-14">
           <img
-            src="/images/logo-gold.png"
+            src="/images/food-vibes-logo-gold.png"
             alt="Food Vibes Restaurant &amp; Bar"
             className="h-14 w-auto"
           />

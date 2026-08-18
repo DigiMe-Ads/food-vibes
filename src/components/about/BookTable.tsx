@@ -7,7 +7,7 @@ export default function BookTable() {
           dark background without needing a gradient overlay */}
       <div className="pointer-events-none absolute inset-y-0 right-0 w-4/5 max-w-xl sm:w-3/5">
         <img
-          src="/images/about/book-a-table.png"
+          src="/images/about/reserved-table-sign.png"
           alt=""
           className="h-full w-full object-cover object-center"
         />

@@ -6,7 +6,7 @@ export default function BookTable() {
       {/* Background image */}
       <div className="absolute inset-0">
         <img
-          src="/images/home/ready-to-vibe-with-us-bg.jpg"
+          src="/images/home/candlelit-dining-table.jpg"
           alt=""
           className="h-full w-full object-cover"
           onError={(e) => {

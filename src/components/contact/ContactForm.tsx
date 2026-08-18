@@ -22,7 +22,7 @@ export default function ContactForm() {
         <div className="mt-12 grid grid-cols-1 items-end gap-8 text-left md:grid-cols-[auto_1fr] md:gap-10">
           {/* Chef illustration */}
           <img
-            src="/images/contact/contac-form-chef.png"
+            src="/images/contact/food-vibes-chef-mascot.png"
             alt="Food Vibes chef"
             className="mx-auto hidden h-auto w-40 shrink-0 select-none md:block lg:w-48"
           />
