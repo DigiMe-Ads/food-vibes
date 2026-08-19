@@ -57,19 +57,19 @@ export default function Footer() {
             <h3 className="font-serif text-2xl">Contact info</h3>
             <dl className="mt-6 space-y-4 text-sm">
               <div className="flex gap-6">
-                <dt className="w-16 shrink-0 text-[11px] font-semibold uppercase tracking-label text-neutral-500">
+                <dt className="w-20 shrink-0 whitespace-nowrap text-[11px] font-semibold uppercase tracking-label text-neutral-500">
                   Call :
                 </dt>
                 <dd className="text-neutral-700">+76 (094) 754 43 71</dd>
               </div>
               <div className="flex gap-6">
-                <dt className="w-16 shrink-0 text-[11px] font-semibold uppercase tracking-label text-neutral-500">
+                <dt className="w-20 shrink-0 whitespace-nowrap text-[11px] font-semibold uppercase tracking-label text-neutral-500">
                   Write :
                 </dt>
                 <dd className="text-neutral-700">hello@foodvibes.com</dd>
               </div>
               <div className="flex gap-6">
-                <dt className="w-16 shrink-0 text-[11px] font-semibold uppercase tracking-label text-neutral-500">
+                <dt className="w-20 shrink-0 whitespace-nowrap text-[11px] font-semibold uppercase tracking-label text-neutral-500">
                   Find us :
                 </dt>
                 <dd className="text-neutral-700">Unawatuna, Sri Lanka</dd>
@@ -86,7 +86,7 @@ export default function Footer() {
           {/* Gallery */}
           <div>
             <h3 className="font-serif text-2xl">Gallery</h3>
-            <div className="mt-6 grid grid-cols-4 gap-2">
+            <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-4">
               {GALLERY.map((src, i) => (
                 <Placeholder
                   key={i}

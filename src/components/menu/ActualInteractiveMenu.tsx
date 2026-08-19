@@ -312,13 +312,13 @@ export default function ActualInteractiveMenu() {
           <div className="border border-gold/20 p-6 sm:p-10">
             <div className="grid gap-10 md:grid-cols-[200px_1fr] md:gap-14">
               {/* Category index */}
-              <nav className="flex gap-2 overflow-x-auto pb-2 md:sticky md:top-28 md:h-fit md:flex-col md:gap-1 md:overflow-visible md:pb-0">
+              <nav className="-mx-6 flex snap-x snap-mandatory gap-2 overflow-x-auto scroll-px-6 px-6 pb-2 sm:-mx-10 sm:scroll-px-10 sm:px-10 md:sticky md:top-28 md:mx-0 md:h-fit md:flex-col md:gap-1 md:overflow-visible md:px-0 md:pb-0">
                 {CATEGORIES.map((cat) => (
                   <button
                     key={cat}
                     type="button"
                     onClick={() => setActive(cat)}
-                    className={`shrink-0 whitespace-nowrap border-l-2 px-3 py-2 text-left text-xs font-semibold uppercase tracking-label transition-colors md:whitespace-normal ${
+                    className={`shrink-0 snap-start whitespace-nowrap border-l-2 px-3 py-2 text-left text-xs font-semibold uppercase tracking-label transition-colors md:whitespace-normal ${
                       active === cat
                         ? 'border-gold text-gold-dark'
                         : 'border-transparent text-neutral-400 hover:text-ink'

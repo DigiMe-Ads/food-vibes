@@ -4,8 +4,10 @@ export default function BookTable() {
   return (
     <section id="reservation" className="relative overflow-hidden bg-ink">
       {/* Photo — a transparent-edge PNG, so it blends straight into the
-          dark background without needing a gradient overlay */}
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-4/5 max-w-xl sm:w-3/5">
+          dark background without needing a gradient overlay. Hidden on
+          small phones: there isn't room for it to "peek" from the right
+          without colliding with the heading text at that width. */}
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-2/5 sm:block md:w-1/2 lg:w-3/5 lg:max-w-xl">
         <img
           src="/images/about/reserved-table-sign.png"
           alt=""
