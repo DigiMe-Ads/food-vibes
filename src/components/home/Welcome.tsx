@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useReveal } from '../../hooks/useReveal'
 import Placeholder from '../Placeholder'
 
@@ -127,9 +128,9 @@ export default function Welcome() {
 
         {/* Controls */}
         <div className="mt-14 flex flex-col items-center justify-between gap-8 sm:flex-row">
-          <a href="#about" className="btn-solid">
+          <Link to="/about" className="btn-solid">
             More About Us
-          </a>
+          </Link>
 
           <div className="flex items-center gap-2">
             {Array.from({ length: PAGE_COUNT }).map((_, i) => (

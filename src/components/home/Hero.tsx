@@ -47,9 +47,9 @@ export default function Hero() {
           <Link to="/reservation" className="btn-outline text-white">
             Reserve a Table
           </Link>
-          <a href="#dishes" className="btn-outline text-white">
+          <Link to="/menu" className="btn-outline text-white">
             View Menu
-          </a>
+          </Link>
         </div>
       </div>
 

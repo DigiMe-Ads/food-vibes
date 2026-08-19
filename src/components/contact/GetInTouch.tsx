@@ -50,7 +50,7 @@ export default function GetInTouch() {
   const ref = useReveal<HTMLDivElement>()
 
   return (
-    <section className="bg-white py-20 sm:py-24">
+    <section id="get-in-touch" className="bg-white py-20 sm:py-24">
       <div ref={ref} className="reveal mx-auto max-w-4xl px-6 text-center">
         <h2 className="font-serif text-4xl text-ink sm:text-5xl">
           Get In Touch

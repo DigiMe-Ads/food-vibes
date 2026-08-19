@@ -1,7 +1,7 @@
 export default function Hero() {
   return (
     <section
-      id="about-hero"
+      id="menu-hero"
       className="relative flex min-h-[65vh] items-center justify-center overflow-hidden sm:min-h-[70vh]"
     >
       {/* Background image */}
@@ -10,9 +10,9 @@ export default function Hero() {
             photo fails to load */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#2b2620] via-[#1a1712] to-[#0d0b08]" />
         <img
-          src="/images/about/food-vibes-restaurant-interior.jpg"
+          src="/images/menu/sizzling-wok-flambe.jpg"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full animate-kenburns object-cover"
           onError={(e) => {
             e.currentTarget.style.display = 'none'
           }}
@@ -21,15 +21,24 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 mx-auto px-6 text-center text-white">
-        <h1 className="animate-fade-up font-serif text-5xl uppercase leading-none tracking-wide sm:text-6xl md:text-7xl">
-          About Us
+      <div className="relative z-10 mx-auto max-w-2xl px-6 text-center text-white">
+        <p className="eyebrow flex items-center justify-center gap-3 text-gold-light">
+          <span className="h-px w-6 bg-gold-light" />
+          Food Vibes
+          <span className="h-px w-6 bg-gold-light" />
+        </p>
+        <h1 className="mt-5 animate-fade-up font-serif text-5xl uppercase leading-none tracking-wide sm:text-6xl md:text-7xl">
+          The Menu
         </h1>
+        <p className="mx-auto mt-6 max-w-md animate-fade-up text-sm leading-relaxed text-white/80 [animation-delay:120ms]">
+          Fresh seafood, Sri Lankan classics, and international favorites —
+          tap a category below to explore.
+        </p>
       </div>
 
       {/* Scroll indicator */}
       <a
-        href="#story"
+        href="#menu-grid"
         aria-label="Scroll down"
         className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2"
       >

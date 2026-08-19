@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import Placeholder from '../Placeholder'
 
 const SOCIALS = ['Facebook', 'Instagram', 'X', 'YouTube']
@@ -31,12 +32,12 @@ export default function Footer() {
               maintaining a 4.8-star rating, we serve up incredible flavors to
               travelers and locals in the heart of Unawatuna.
             </p>
-            <a
-              href="#about"
+            <Link
+              to="/about"
               className="mt-6 inline-block text-xs font-semibold uppercase tracking-label text-gold transition-colors hover:text-gold-dark"
             >
               Read More
-            </a>
+            </Link>
             <div className="mt-6 flex items-center gap-4">
               {SOCIALS.map((s) => (
                 <a
@@ -74,12 +75,12 @@ export default function Footer() {
                 <dd className="text-neutral-700">Unawatuna, Sri Lanka</dd>
               </div>
             </dl>
-            <a
-              href="#contact"
+            <Link
+              to="/contact"
               className="mt-6 inline-block text-xs font-semibold uppercase tracking-label text-gold transition-colors hover:text-gold-dark"
             >
               Read More
-            </a>
+            </Link>
           </div>
 
           {/* Gallery */}
@@ -120,12 +121,13 @@ export default function Footer() {
           <p className="text-xs text-neutral-500">
             &copy; Food Vibes 2026 . All rights reserved.
           </p>
-          <a
-            href="#home"
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="text-[11px] font-semibold uppercase tracking-label text-gold transition-colors hover:text-gold-dark"
           >
             Back to Top
-          </a>
+          </button>
         </div>
       </div>
     </footer>

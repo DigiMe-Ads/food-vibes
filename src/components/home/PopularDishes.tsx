@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useReveal } from '../../hooks/useReveal'
 
 type Dish = {
@@ -78,9 +79,9 @@ function DishRow({ dish, reverse }: { dish: Dish; reverse?: boolean }) {
         <p className="mt-5 max-w-sm text-sm leading-relaxed text-neutral-500">
           {dish.body}
         </p>
-        <a href="#dishes" className="btn-solid mt-7">
+        <Link to="/menu" className="btn-solid mt-7">
           View Menu
-        </a>
+        </Link>
       </div>
 
       {/* Image with functional mini slider */}

@@ -39,7 +39,7 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <a
-        href="#contact-details"
+        href="#get-in-touch"
         aria-label="Scroll down"
         className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2"
       >
