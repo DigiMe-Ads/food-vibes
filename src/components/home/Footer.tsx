@@ -5,7 +5,7 @@ const SOCIALS = ['Facebook', 'Instagram', 'X', 'YouTube']
 const GALLERY = [
   '/images/gallery/food-vibes-signage.jpg',
   '/images/gallery/chocolate-dessert-plate.jpg',
-  '/images/gallery/tropical-cocktail-drink.jpg',
+  '/images/gallery/bar-cocktail-lineup.jpg',
   '/images/gallery/bar-shelf-bottles.jpg',
 ]
 

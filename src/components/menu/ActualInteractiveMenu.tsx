@@ -153,10 +153,18 @@ const MENU_ITEMS: MenuItem[] = [
     title: 'Signature Sunset',
     price: '$8.50',
     description:
-      'Our house cocktail with rum, passionfruit, and a splash of grenadine.',
+      'Our house frozen margarita, layered with a berry reduction and a salted rim.',
     image: '/images/menu/signature-sunset-cocktail.jpg',
     category: 'Drinks & Cocktails',
     tags: ["Chef's Pick"],
+  },
+  {
+    title: 'Smoked Pineapple Mojito',
+    price: '$9.00',
+    description:
+      'A frozen mint mojito finished with charred pineapple and a wisp of smoke.',
+    image: '/images/menu/smoked-pineapple-mojito.jpg',
+    category: 'Drinks & Cocktails',
   },
 ]
 

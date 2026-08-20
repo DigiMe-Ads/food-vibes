@@ -23,6 +23,7 @@ const DISHES: Dish[] = [
     images: [
       '/images/home/soup-of-the-day-bowl.jpg',
       '/images/home/pumpkin-soup-with-bread.jpg',
+      '/images/home/chilled-mango-shrimp-salad.jpg',
     ],
   },
   {
