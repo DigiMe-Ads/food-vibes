@@ -20,3 +20,10 @@ Expected files:
 
 A missing file simply falls back to the placeholder, so you can add them one at
 a time.
+
+| `about/head-chef-ruwan.jpg` | Meet the Chef (About page) | Portrait, ~4:5 |
+
+Menu photos, testimonial avatars, and everything managed from `/admin` are
+stored as full paths/URLs in Firestore, not filenames dropped into this
+folder — the admin dashboard's image picker reads from whatever is already
+here, or accepts a pasted URL.

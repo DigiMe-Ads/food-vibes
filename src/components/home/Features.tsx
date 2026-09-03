@@ -31,15 +31,14 @@ export default function Features() {
     <section id="features" className="bg-white py-20">
       <div ref={ref} className="reveal mx-auto max-w-6xl px-6">
         <div className="text-center">
-          <p className="eyebrow">Features</p>
-          <h2 className="mt-4 font-serif text-5xl text-ink">What We Offer</h2>
+          <h2 className="font-serif text-5xl text-ink">Our Vibe</h2>
           <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-neutral-500">
             Fresh Seafood &amp; International Flavors by Chef Ruwan, bringing in 20
             years of local and international cuisine
           </p>
         </div>
 
-        <div className="mt-14 grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4">
+        <div className="mt-14 grid grid-cols-2 gap-x-8 gap-y-14 lg:grid-cols-4 lg:gap-x-10">
           {FEATURES.map((f, i) => (
             <div
               key={f.label}
@@ -50,9 +49,9 @@ export default function Features() {
                 src={f.img}
                 label={f.label}
                 alt={f.label}
-                className="h-28 w-28 rounded-[26px] shadow-md transition-transform duration-500 group-hover:scale-105 group-hover:shadow-xl"
+                className="h-36 w-36 rounded-[32px] shadow-md transition-transform duration-500 group-hover:scale-105 group-hover:shadow-xl sm:h-44 sm:w-44"
               />
-              <p className="mt-5 max-w-[15rem] text-xs leading-relaxed text-neutral-500">
+              <p className="mt-6 max-w-[16rem] text-xs leading-relaxed text-neutral-500">
                 {f.text}
               </p>
             </div>

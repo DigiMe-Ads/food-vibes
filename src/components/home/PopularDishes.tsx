@@ -14,7 +14,7 @@ const DISHES: Dish[] = [
     body: 'Start things off with our hummus flatbread, topped with spiced falafel and a pop of pomegranate.',
     images: [
       '/images/home/sri-lankan-appetizer-platter.jpg',
-      '/images/home/flatbread-hummus-appetizer.jpg',
+      '/images/menu/chefs-sharing-platter.jpg',
     ],
   },
   {

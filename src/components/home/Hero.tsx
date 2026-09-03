@@ -19,7 +19,8 @@ export default function Hero() {
             e.currentTarget.style.display = 'none'
           }}
         />
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20" />
       </div>
 
       {/* Content */}
@@ -36,7 +37,7 @@ export default function Hero() {
 
         <div className="mx-auto mt-6 h-px w-12 animate-fade-in bg-gold [animation-delay:320ms]" />
 
-        <p className="mx-auto mt-6 max-w-2xl animate-fade-up text-sm font-medium uppercase leading-relaxed tracking-wide text-white/80 [animation-delay:400ms]">
+        <p className="mx-auto mt-6 max-w-2xl animate-fade-up text-sm font-medium leading-relaxed text-white/90 [animation-delay:400ms]">
           Just steps from Unawatuna Beach, Food Vibes is where fresh seafood, Sri
           Lankan flavors, amazing wood-fired pizza, and international favorites
           meet good music. Whether you're here for breakfast, brunch, a long

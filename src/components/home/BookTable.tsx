@@ -23,7 +23,7 @@ export default function BookTable() {
           Ready to Vibe with us?
         </p>
         <h2 className="mt-5 max-w-2xl font-serif text-4xl uppercase leading-tight tracking-wide sm:text-5xl">
-          Book Your Table for Breakfast, Lunch, Dinner.
+          Book Your Table for Breakfast, Lunch, or Dinner.
         </h2>
 
         <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">

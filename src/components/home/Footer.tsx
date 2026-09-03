@@ -1,12 +1,59 @@
 import { Link } from 'react-router-dom'
 import Placeholder from '../Placeholder'
 
-const SOCIALS = ['Facebook', 'Instagram', 'X', 'YouTube']
+const ICON_PROPS = {
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 1.4,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+  className: 'h-4 w-4',
+}
+
+const SOCIALS = [
+  {
+    label: 'Facebook',
+    icon: (
+      <svg {...ICON_PROPS}>
+        <path d="M14 9h3V6h-3c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.5l.5-3H14V9Z" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Instagram',
+    icon: (
+      <svg {...ICON_PROPS}>
+        <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" />
+        <circle cx="12" cy="12" r="3.6" />
+        <circle cx="17" cy="7" r="0.9" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+  {
+    label: 'X',
+    icon: (
+      <svg {...ICON_PROPS}>
+        <path d="M4.5 4.5 19.5 19.5M19.5 4.5 4.5 19.5" />
+      </svg>
+    ),
+  },
+  {
+    label: 'YouTube',
+    icon: (
+      <svg {...ICON_PROPS}>
+        <rect x="3" y="6" width="18" height="12" rx="3.5" />
+        <path d="M10.5 9.5v5l4.3-2.5-4.3-2.5Z" fill="currentColor" stroke="none" />
+      </svg>
+    ),
+  },
+]
+
 const GALLERY = [
-  '/images/gallery/food-vibes-signage.jpg',
   '/images/gallery/chocolate-dessert-plate.jpg',
   '/images/gallery/bar-cocktail-lineup.jpg',
-  '/images/gallery/bar-shelf-bottles.jpg',
+  '/images/home/sri-lankan-appetizer-platter.jpg',
+  '/images/home/gourmet-burger-and-fries.jpg',
 ]
 
 export default function Footer() {
@@ -38,15 +85,15 @@ export default function Footer() {
             >
               Read More
             </Link>
-            <div className="mt-6 flex items-center gap-4">
+            <div className="mt-6 flex items-center gap-3">
               {SOCIALS.map((s) => (
                 <a
-                  key={s}
+                  key={s.label}
                   href="#"
-                  aria-label={s}
-                  className="text-neutral-500 transition-colors hover:text-gold"
+                  aria-label={s.label}
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 text-neutral-500 transition-colors hover:border-gold hover:text-gold"
                 >
-                  <span className="text-sm font-medium">{s[0]}</span>
+                  {s.icon}
                 </a>
               ))}
             </div>

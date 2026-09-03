@@ -1,0 +1,42 @@
+// Firestore security rules for the food-vibes-38fae project.
+//
+// This file is not auto-deployed by this repo (no Firebase CLI login
+// available in this environment) — copy its contents into the Firebase
+// Console: Firestore Database → Rules → paste → Publish.
+//
+// Model: there is exactly one admin account (created manually in the
+// Firebase Console under Authentication → Users). Any signed-in user is
+// therefore treated as the admin — that's the only account that will ever
+// exist. Menu items and testimonials are public content (readable by
+// anyone, writable only by the admin). Reservations and contact messages
+// are public *submissions* — anyone can create one, but only the admin can
+// read, update, or delete them (so guests can't see each other's booking
+// details or messages).
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    match /menuItems/{itemId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /reservations/{reservationId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /contactMessages/{messageId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}
