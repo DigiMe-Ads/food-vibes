@@ -5,8 +5,9 @@ import MenuManager from './MenuManager'
 import TestimonialManager from './TestimonialManager'
 import ReservationsPanel from './ReservationsPanel'
 import MessagesPanel from './MessagesPanel'
+import HeatmapPanel from './HeatmapPanel'
 
-const TABS = ['Menu', 'Testimonials', 'Reservations', 'Messages'] as const
+const TABS = ['Menu', 'Testimonials', 'Reservations', 'Messages', 'Heatmap'] as const
 type Tab = (typeof TABS)[number]
 
 export default function AdminLayout({ email }: { email: string | null }) {
@@ -48,11 +49,12 @@ export default function AdminLayout({ email }: { email: string | null }) {
         ))}
       </nav>
 
-      <main className="mx-auto max-w-5xl px-6 py-10">
+      <main className={`mx-auto px-6 py-10 ${tab === 'Heatmap' ? 'max-w-7xl' : 'max-w-5xl'}`}>
         {tab === 'Menu' && <MenuManager />}
         {tab === 'Testimonials' && <TestimonialManager />}
         {tab === 'Reservations' && <ReservationsPanel />}
         {tab === 'Messages' && <MessagesPanel />}
+        {tab === 'Heatmap' && <HeatmapPanel />}
       </main>
     </div>
   )

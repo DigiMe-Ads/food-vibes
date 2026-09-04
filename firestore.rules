@@ -8,15 +8,24 @@
 // Firebase Console under Authentication → Users). Any signed-in user is
 // therefore treated as the admin — that's the only account that will ever
 // exist. Menu items and testimonials are public content (readable by
-// anyone, writable only by the admin). Reservations and contact messages
-// are public *submissions* — anyone can create one, but only the admin can
-// read, update, or delete them (so guests can't see each other's booking
-// details or messages).
+// anyone, writable only by the admin). Reservations, contact messages, and
+// click events (heatmap data) are public *submissions* — anyone can create
+// one, but only the admin can read, update, or delete them (so guests
+// can't see each other's booking details/messages, or read raw heatmap
+// data).
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function isAdmin() {
       return request.auth != null;
+    }
+
+    function isValidClickEvent() {
+      let d = request.resource.data;
+      return d.path is string && d.path.size() < 200
+        && d.xPct is number && d.xPct >= 0 && d.xPct <= 1
+        && d.yPct is number && d.yPct >= 0 && d.yPct <= 1
+        && d.device in ['mobile', 'desktop'];
     }
 
     match /menuItems/{itemId} {
@@ -37,6 +46,11 @@ service cloud.firestore {
     match /contactMessages/{messageId} {
       allow create: if true;
       allow read, update, delete: if isAdmin();
+    }
+
+    match /clickEvents/{eventId} {
+      allow create: if isValidClickEvent();
+      allow read, delete: if isAdmin();
     }
   }
 }

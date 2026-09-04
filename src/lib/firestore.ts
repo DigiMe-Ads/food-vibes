@@ -12,6 +12,7 @@ import {
   query,
   serverTimestamp,
   updateDoc,
+  where,
 } from 'firebase/firestore'
 import type { Timestamp } from 'firebase/firestore'
 import { db } from '../firebase'
@@ -84,6 +85,18 @@ export type ContactMessage = {
   subject?: string
   message: string
   read: boolean
+  createdAt?: Timestamp
+}
+
+export type DeviceBucket = 'mobile' | 'desktop'
+
+export type ClickEvent = {
+  id: string
+  path: string
+  /** Click position as a fraction (0–1) of the full page's scroll width/height. */
+  xPct: number
+  yPct: number
+  device: DeviceBucket
   createdAt?: Timestamp
 }
 
@@ -208,4 +221,45 @@ export async function markMessageRead(id: string, read = true) {
 
 export async function deleteMessage(id: string) {
   await deleteDoc(doc(db, 'contactMessages', id))
+}
+
+// ---------------------------------------------------------------------------
+// Click events — public create (fire-and-forget from the tracker), admin
+// reads them per-page to render the heatmap.
+
+export async function recordClickEvent(data: {
+  path: string
+  xPct: number
+  yPct: number
+  device: DeviceBucket
+}) {
+  await addDoc(collection(db, 'clickEvents'), { ...data, createdAt: serverTimestamp() })
+}
+
+/** All recorded clicks for one page, optionally narrowed to one device bucket. */
+export function useClickEvents(path: string, device: DeviceBucket | 'all') {
+  const [data, setData] = useState<ClickEvent[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    setLoading(true)
+    const clauses = [where('path', '==', path)]
+    if (device !== 'all') clauses.push(where('device', '==', device))
+    const q = query(collection(db, 'clickEvents'), ...clauses)
+    const unsub = onSnapshot(
+      q,
+      (snap) => {
+        setData(snap.docs.map((d) => ({ id: d.id, ...d.data() }) as ClickEvent))
+        setLoading(false)
+      },
+      () => setLoading(false),
+    )
+    return unsub
+  }, [path, device])
+
+  return { data, loading }
+}
+
+export async function clearClickEvents(ids: string[]) {
+  await Promise.all(ids.map((id) => deleteDoc(doc(db, 'clickEvents', id))))
 }
