@@ -19,7 +19,11 @@ export default function ImagePicker({ value, onChange, label }: Props) {
   const [urlDraft, setUrlDraft] = useState('')
 
   return (
-    <div>
+    // min-w-0 matters: every call site places this inside a flex row next
+    // to a Remove/Delete button, and without it the long file-path text
+    // below refuses to shrink (flex items default to min-width:auto),
+    // pushing that sibling button out of view.
+    <div className="min-w-0 flex-1">
       {label && (
         <p className="mb-1.5 text-xs font-semibold uppercase tracking-label text-neutral-500">
           {label}

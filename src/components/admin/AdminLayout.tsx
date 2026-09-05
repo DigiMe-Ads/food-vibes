@@ -6,8 +6,9 @@ import TestimonialManager from './TestimonialManager'
 import ReservationsPanel from './ReservationsPanel'
 import MessagesPanel from './MessagesPanel'
 import HeatmapPanel from './HeatmapPanel'
+import SiteSettingsPanel from './SiteSettingsPanel'
 
-const TABS = ['Menu', 'Testimonials', 'Reservations', 'Messages', 'Heatmap'] as const
+const TABS = ['Menu', 'Testimonials', 'Reservations', 'Messages', 'Heatmap', 'Settings'] as const
 type Tab = (typeof TABS)[number]
 
 export default function AdminLayout({ email }: { email: string | null }) {
@@ -55,6 +56,7 @@ export default function AdminLayout({ email }: { email: string | null }) {
         {tab === 'Reservations' && <ReservationsPanel />}
         {tab === 'Messages' && <MessagesPanel />}
         {tab === 'Heatmap' && <HeatmapPanel />}
+        {tab === 'Settings' && <SiteSettingsPanel />}
       </main>
     </div>
   )

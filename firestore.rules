@@ -52,5 +52,10 @@ service cloud.firestore {
       allow create: if isValidClickEvent();
       allow read, delete: if isAdmin();
     }
+
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
   }
 }

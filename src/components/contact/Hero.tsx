@@ -1,4 +1,8 @@
+import { useSiteSettings } from '../../lib/firestore'
+
 export default function Hero() {
+  const { data: settings } = useSiteSettings()
+
   return (
     <section
       id="contact-hero"
@@ -7,8 +11,8 @@ export default function Hero() {
       {/* Map background */}
       <div className="absolute inset-0">
         <iframe
-          title="Food Vibes on the map — Unawatuna, Sri Lanka"
-          src="https://www.google.com/maps?q=Unawatuna,+Sri+Lanka&z=15&output=embed"
+          title={`Food Vibes on the map — ${settings.address}`}
+          src={`https://www.google.com/maps?q=${encodeURIComponent(settings.address)}&z=16&output=embed`}
           className="h-full w-full invert-[0.9] hue-rotate-180 contrast-[0.85] brightness-[0.85] saturate-[1.4]"
           style={{ border: 0 }}
           loading="lazy"
@@ -33,7 +37,7 @@ export default function Hero() {
           Contact
         </h1>
         <p className="mt-4 animate-fade-up text-sm text-white/80 [animation-delay:120ms]">
-          Unawatuna, Sri Lanka
+          {settings.address}
         </p>
       </div>
 

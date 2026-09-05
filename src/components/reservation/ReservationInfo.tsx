@@ -1,4 +1,5 @@
 import { useReveal } from '../../hooks/useReveal'
+import { useSiteSettings } from '../../lib/firestore'
 
 const ICON_PROPS = {
   viewBox: '0 0 24 24',
@@ -10,49 +11,51 @@ const ICON_PROPS = {
   className: 'h-7 w-7',
 }
 
-const INFO_ITEMS = [
-  {
-    text: 'Open daily, 7:30 AM – 11:00 PM',
-    icon: (
-      <svg {...ICON_PROPS}>
-        <circle cx="12" cy="12" r="9" />
-        <path d="M12 7v5l3.5 2" />
-      </svg>
-    ),
-  },
-  {
-    text: 'Live music every Thursday, Friday & Saturday from 6 PM — book early for a good seat',
-    icon: (
-      <svg {...ICON_PROPS}>
-        <path d="M9 18V6l10-2v12" />
-        <circle cx="7" cy="18" r="2.2" />
-        <circle cx="17" cy="16" r="2.2" />
-      </svg>
-    ),
-  },
-  {
-    text: "We'll confirm your reservation by phone/WhatsApp",
-    icon: (
-      <svg {...ICON_PROPS}>
-        <path d="M8.5 3.5C6 5 4.5 6.7 4 8.7c-1 4 2.3 9 6.8 11.3 4.4 2.3 7.6 1.3 9-1.3.4-.8.2-1.7-.5-2.2l-2.7-2c-.6-.4-1.4-.4-1.9.1l-1 1c-1.6-.8-3.1-2.3-4-4l1-1c.5-.5.5-1.3.1-1.9l-2-2.7c-.4-.6-1.2-.8-1.9-.5Z" />
-      </svg>
-    ),
-  },
-  {
-    text: 'For large groups (10+) or private events, please call us directly at +94 76 578 2468',
-    icon: (
-      <svg {...ICON_PROPS}>
-        <circle cx="8.5" cy="8" r="2.7" />
-        <circle cx="16" cy="9" r="2.2" />
-        <path d="M3.5 19c.5-3 2.2-4.7 5-4.7s4.5 1.7 5 4.7" />
-        <path d="M14.2 14.6c2.2.2 3.6 1.8 4 4.4" />
-      </svg>
-    ),
-  },
-]
+const ICONS = {
+  clock: (
+    <svg {...ICON_PROPS}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3.5 2" />
+    </svg>
+  ),
+  music: (
+    <svg {...ICON_PROPS}>
+      <path d="M9 18V6l10-2v12" />
+      <circle cx="7" cy="18" r="2.2" />
+      <circle cx="17" cy="16" r="2.2" />
+    </svg>
+  ),
+  phone: (
+    <svg {...ICON_PROPS}>
+      <path d="M8.5 3.5C6 5 4.5 6.7 4 8.7c-1 4 2.3 9 6.8 11.3 4.4 2.3 7.6 1.3 9-1.3.4-.8.2-1.7-.5-2.2l-2.7-2c-.6-.4-1.4-.4-1.9.1l-1 1c-1.6-.8-3.1-2.3-4-4l1-1c.5-.5.5-1.3.1-1.9l-2-2.7c-.4-.6-1.2-.8-1.9-.5Z" />
+    </svg>
+  ),
+  people: (
+    <svg {...ICON_PROPS}>
+      <circle cx="8.5" cy="8" r="2.7" />
+      <circle cx="16" cy="9" r="2.2" />
+      <path d="M3.5 19c.5-3 2.2-4.7 5-4.7s4.5 1.7 5 4.7" />
+      <path d="M14.2 14.6c2.2.2 3.6 1.8 4 4.4" />
+    </svg>
+  ),
+}
 
 export default function ReservationInfo() {
   const ref = useReveal<HTMLDivElement>()
+  const { data: settings } = useSiteSettings()
+
+  const INFO_ITEMS = [
+    { text: settings.hours, icon: ICONS.clock },
+    {
+      text: 'Live music every Thursday, Friday & Saturday from 6 PM — book early for a good seat',
+      icon: ICONS.music,
+    },
+    { text: "We'll confirm your reservation by phone/WhatsApp", icon: ICONS.phone },
+    {
+      text: `For large groups (10+) or private events, please call us directly at ${settings.phone}`,
+      icon: ICONS.people,
+    },
+  ]
 
   return (
     <section className="bg-cream py-20 sm:py-24">

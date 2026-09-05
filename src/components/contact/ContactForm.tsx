@@ -24,7 +24,8 @@ export default function ContactForm() {
       })
       setStatus('success')
       form.reset()
-    } catch {
+    } catch (err) {
+      console.error('Contact message submit failed:', err)
       setStatus('error')
     }
   }
@@ -51,12 +52,16 @@ export default function ContactForm() {
 
         <div className="relative mt-14 border border-gold/30 bg-white p-1 shadow-xl shadow-black/5">
           <div className="border border-gold/20 p-6 sm:p-10">
-            <div className="grid grid-cols-1 items-end gap-8 text-left md:grid-cols-[auto_1fr] md:gap-10">
-              <img
-                src="/images/contact/food-vibes-chef-mascot.png"
-                alt="Food Vibes chef"
-                className="mx-auto hidden h-auto w-40 shrink-0 select-none drop-shadow-lg md:block lg:w-48"
-              />
+            <div className="grid grid-cols-1 gap-8 text-left md:grid-cols-[260px_1fr] md:gap-10">
+              <div className="group relative hidden overflow-hidden shadow-lg shadow-black/10 md:block">
+                <img
+                  src="/images/home/candlelit-dining-table.jpg"
+                  alt="A candlelit table set at Food Vibes"
+                  loading="lazy"
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                />
+                <div className="pointer-events-none absolute inset-0 border-4 border-white/20" />
+              </div>
 
               <form onSubmit={onSubmit} className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 <input type="text" name="name" placeholder="Name" aria-label="Name" required className={fieldClass} />

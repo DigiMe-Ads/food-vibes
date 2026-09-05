@@ -11,6 +11,7 @@ import {
   orderBy,
   query,
   serverTimestamp,
+  setDoc,
   updateDoc,
   where,
 } from 'firebase/firestore'
@@ -262,4 +263,65 @@ export function useClickEvents(path: string, device: DeviceBucket | 'all') {
 
 export async function clearClickEvents(ids: string[]) {
   await Promise.all(ids.map((id) => deleteDoc(doc(db, 'clickEvents', id))))
+}
+
+// ---------------------------------------------------------------------------
+// Site settings — a single doc holding contact info + the footer gallery,
+// so both are editable from the dashboard instead of hardcoded per-component
+// (which had let the footer and the contact page drift to two different
+// phone numbers). Public read, admin write; components merge this over
+// DEFAULT_SITE_SETTINGS so the site never looks broken before the doc
+// exists or while a field is still empty.
+
+export type SiteSettings = {
+  phone: string
+  email: string
+  address: string
+  hours: string
+  socials: { facebook: string; instagram: string; x: string; youtube: string }
+  galleryImages: string[]
+}
+
+export const DEFAULT_SITE_SETTINGS: SiteSettings = {
+  phone: '+94 76 578 2468',
+  email: 'hello@foodvibes.com',
+  address: 'No. 216, Yaddehimulla, Unawatuna, Sri Lanka',
+  hours: 'Open daily, 7:30 AM – 11:00 PM',
+  socials: { facebook: '', instagram: '', x: '', youtube: '' },
+  galleryImages: [
+    '/images/gallery/chocolate-dessert-plate.jpg',
+    '/images/gallery/bar-cocktail-lineup.jpg',
+    '/images/home/sri-lankan-appetizer-platter.jpg',
+    '/images/home/gourmet-burger-and-fries.jpg',
+  ],
+}
+
+const SETTINGS_DOC = ['settings', 'site'] as const
+
+export function useSiteSettings() {
+  const [data, setData] = useState<SiteSettings>(DEFAULT_SITE_SETTINGS)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const unsub = onSnapshot(
+      doc(db, ...SETTINGS_DOC),
+      (snap) => {
+        const stored = snap.data() as Partial<SiteSettings> | undefined
+        setData({
+          ...DEFAULT_SITE_SETTINGS,
+          ...stored,
+          socials: { ...DEFAULT_SITE_SETTINGS.socials, ...stored?.socials },
+        })
+        setLoading(false)
+      },
+      () => setLoading(false),
+    )
+    return unsub
+  }, [])
+
+  return { data, loading }
+}
+
+export async function updateSiteSettings(data: Partial<SiteSettings>) {
+  await setDoc(doc(db, ...SETTINGS_DOC), data, { merge: true })
 }

@@ -1,4 +1,5 @@
 import { useReveal } from '../../hooks/useReveal'
+import { useSiteSettings } from '../../lib/firestore'
 
 const ICON_PROPS = {
   viewBox: '0 0 24 24',
@@ -10,47 +11,44 @@ const ICON_PROPS = {
   className: 'h-8 w-8',
 }
 
-const CONTACT_ITEMS = [
-  {
-    label: 'Email Us',
-    value: 'hello@foodvibes.com',
-    href: 'mailto:hello@foodvibes.com',
-    icon: (
-      <svg {...ICON_PROPS}>
-        <rect x="3" y="5" width="18" height="14" rx="2" />
-        <path d="m4 7 8 6 8-6" />
-        <circle cx="18.5" cy="16.5" r="3.2" />
-        <path d="m17 16.5 1 1 2-2" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Call Us',
-    value: '+94 76 578 2468',
-    href: 'tel:+94765782468',
-    icon: (
-      <svg {...ICON_PROPS}>
-        <path d="M8.5 3.5C6 5 4.5 6.7 4 8.7c-1 4 2.3 9 6.8 11.3 4.4 2.3 7.6 1.3 9-1.3.4-.8.2-1.7-.5-2.2l-2.7-2c-.6-.4-1.4-.4-1.9.1l-1 1c-1.6-.8-3.1-2.3-4-4l1-1c.5-.5.5-1.3.1-1.9l-2-2.7c-.4-.6-1.2-.8-1.9-.5Z" />
-        <path d="M15 3c1.7.3 3 1.6 3.3 3.3M15 6.3c.9.2 1.5.8 1.7 1.7" />
-      </svg>
-    ),
-  },
-  {
-    label: 'Find Us',
-    value: 'Beach Street, Unawatuna, Sri Lanka',
-    href: undefined,
-    icon: (
-      <svg {...ICON_PROPS}>
-        <path d="M9 4 3 6.5v14L9 18l6 2.5 6-2.5v-14L15 6.5 9 4Z" />
-        <path d="M9 4v14M15 6.5V20.5" />
-        <circle cx="12" cy="11" r="1.5" />
-      </svg>
-    ),
-  },
-]
+const ICONS = {
+  email: (
+    <svg {...ICON_PROPS}>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m4 7 8 6 8-6" />
+      <circle cx="18.5" cy="16.5" r="3.2" />
+      <path d="m17 16.5 1 1 2-2" />
+    </svg>
+  ),
+  phone: (
+    <svg {...ICON_PROPS}>
+      <path d="M8.5 3.5C6 5 4.5 6.7 4 8.7c-1 4 2.3 9 6.8 11.3 4.4 2.3 7.6 1.3 9-1.3.4-.8.2-1.7-.5-2.2l-2.7-2c-.6-.4-1.4-.4-1.9.1l-1 1c-1.6-.8-3.1-2.3-4-4l1-1c.5-.5.5-1.3.1-1.9l-2-2.7c-.4-.6-1.2-.8-1.9-.5Z" />
+      <path d="M15 3c1.7.3 3 1.6 3.3 3.3M15 6.3c.9.2 1.5.8 1.7 1.7" />
+    </svg>
+  ),
+  address: (
+    <svg {...ICON_PROPS}>
+      <path d="M9 4 3 6.5v14L9 18l6 2.5 6-2.5v-14L15 6.5 9 4Z" />
+      <path d="M9 4v14M15 6.5V20.5" />
+      <circle cx="12" cy="11" r="1.5" />
+    </svg>
+  ),
+}
 
 export default function GetInTouch() {
   const ref = useReveal<HTMLDivElement>()
+  const { data: settings } = useSiteSettings()
+
+  const CONTACT_ITEMS = [
+    { label: 'Email Us', value: settings.email, href: `mailto:${settings.email}`, icon: ICONS.email },
+    {
+      label: 'Call Us',
+      value: settings.phone,
+      href: `tel:${settings.phone.replace(/[^+\d]/g, '')}`,
+      icon: ICONS.phone,
+    },
+    { label: 'Find Us', value: settings.address, href: undefined, icon: ICONS.address },
+  ]
 
   return (
     <section id="get-in-touch" className="relative overflow-hidden bg-white py-20 sm:py-24">
@@ -100,9 +98,7 @@ export default function GetInTouch() {
           })}
         </div>
 
-        <p className="mt-14 text-sm text-neutral-500">
-          Open daily &middot; 7:30 AM &ndash; 11:00 PM
-        </p>
+        <p className="mt-14 text-sm text-neutral-500">{settings.hours}</p>
       </div>
     </section>
   )

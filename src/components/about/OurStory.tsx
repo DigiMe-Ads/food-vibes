@@ -63,9 +63,9 @@ export default function OurStory() {
         <h2 className="font-serif text-4xl text-ink sm:text-5xl">Our Story</h2>
 
         <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-neutral-500">
-          Food Vibes Unawatuna opened its doors in October 2023, right in the
-          heart of Unawatuna — a stone&rsquo;s throw from the beach and the
-          buzz of Beach Street. What started as a small idea has grown into
+          Food Vibes Unawatuna opened its doors in October 2023, right in
+          Yaddehimulla — a stone&rsquo;s throw from the beach and the buzz of
+          Unawatuna. What started as a small idea has grown into
           one of Unawatuna&rsquo;s most-loved dining spots, earning a
           4.8-star rating and a loyal following of travelers and locals
           alike. We believe good food should bring people together. So we

@@ -7,7 +7,7 @@
 // object.
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
-import { getFirestore } from 'firebase/firestore'
+import { initializeFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCiso7WQXk_4TL7avP4ELtDgdcWfiXEML4',
@@ -22,4 +22,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 
 export const auth = getAuth(app)
-export const db = getFirestore(app)
+
+// `ignoreUndefinedProperties` matters here: several optional fields across
+// the app (reservation `items`, contact `phone`/`subject`, testimonial
+// `avatar`) are written as `undefined` when left blank, and Firestore's
+// default behavior is to *throw* on any undefined field rather than drop
+// it — which was silently breaking every reservation/message submission
+// that didn't fill in every optional field.
+export const db = initializeFirestore(app, { ignoreUndefinedProperties: true })

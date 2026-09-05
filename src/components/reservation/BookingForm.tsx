@@ -78,7 +78,8 @@ export default function BookingForm() {
       setTime('')
       setItems([])
       setPickFood(false)
-    } catch {
+    } catch (err) {
+      console.error('Reservation submit failed:', err)
       setStatus('error')
     }
   }

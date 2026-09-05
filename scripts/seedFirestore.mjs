@@ -1,5 +1,6 @@
-// One-time migration: writes the site's original hardcoded menu items and
-// testimonials into Firestore. Run this once, after you've:
+// One-time migration: writes the site's original hardcoded menu items,
+// testimonials, and contact/gallery settings into Firestore. Run this once,
+// after you've:
 //   1. Enabled Firestore (Native mode) in the Firebase Console
 //   2. Enabled Email/Password sign-in under Authentication
 //   3. Created one admin user (Authentication → Users → Add user)
@@ -14,7 +15,7 @@
 // only run it once (or clear the collections first if you re-run it).
 import { initializeApp } from 'firebase/app'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import { getFirestore, collection, addDoc } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, doc, setDoc } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCiso7WQXk_4TL7avP4ELtDgdcWfiXEML4',
@@ -54,6 +55,20 @@ const TESTIMONIALS = [
   { title: 'Worth every visit!', body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsam aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.', name: 'Liam Carter', date: '2022-06-09' },
 ]
 
+const SITE_SETTINGS = {
+  phone: '+94 76 578 2468',
+  email: 'hello@foodvibes.com',
+  address: 'No. 216, Yaddehimulla, Unawatuna, Sri Lanka',
+  hours: 'Open daily, 7:30 AM – 11:00 PM',
+  socials: { facebook: '', instagram: '', x: '', youtube: '' },
+  galleryImages: [
+    '/images/gallery/chocolate-dessert-plate.jpg',
+    '/images/gallery/bar-cocktail-lineup.jpg',
+    '/images/home/sri-lankan-appetizer-platter.jpg',
+    '/images/home/gourmet-burger-and-fries.jpg',
+  ],
+}
+
 async function main() {
   const email = process.env.ADMIN_EMAIL
   const password = process.env.ADMIN_PASSWORD
@@ -78,6 +93,9 @@ async function main() {
   for (const t of TESTIMONIALS) {
     await addDoc(collection(db, 'testimonials'), t)
   }
+
+  console.log('Seeding site settings...')
+  await setDoc(doc(db, 'settings', 'site'), SITE_SETTINGS)
 
   console.log('Done.')
   process.exit(0)
