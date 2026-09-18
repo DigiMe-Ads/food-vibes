@@ -2,10 +2,25 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useReveal } from '../../hooks/useReveal'
 
+type DishImage = {
+  src: string
+  /**
+   * These are tall, phone-camera restaurant photos being cropped into a
+   * short 4:3 box — object-cover's default "center" keeps the middle of
+   * the *photo*, not the plate, and most of these shots have the dish
+   * sitting in the lower half with empty table/background above it. That
+   * mismatch is what was making the food look off-center. Each entry's
+   * `position` re-centers the crop on the actual dish (checked by eye
+   * against the source photo); omit it only for the shots where the dish
+   * already sits near the photo's true center.
+   */
+  position?: string
+}
+
 type Dish = {
   title: string
   body: string
-  images: string[]
+  images: DishImage[]
 }
 
 const DISHES: Dish[] = [
@@ -13,49 +28,49 @@ const DISHES: Dish[] = [
     title: 'Appetizers',
     body: 'Start things off with our hummus flatbread, topped with spiced falafel and a pop of pomegranate.',
     images: [
-      '/images/home/sri-lankan-appetizer-platter.jpg',
-      '/images/menu/chefs-sharing-platter.jpg',
+      { src: '/images/home/sri-lankan-appetizer-platter.jpg', position: 'center 80%' },
+      { src: '/images/menu/chefs-sharing-platter.jpg', position: 'center 80%' },
     ],
   },
   {
     title: 'Soups & Salads',
     body: 'Comforting, spiced soups and fresh salads made daily with local produce.',
     images: [
-      '/images/home/soup-of-the-day-bowl.jpg',
-      '/images/home/pumpkin-soup-with-bread.jpg',
-      '/images/home/chilled-mango-shrimp-salad.jpg',
+      { src: '/images/home/soup-of-the-day-bowl.jpg', position: 'center 80%' },
+      { src: '/images/home/pumpkin-soup-with-bread.jpg', position: 'center 90%' },
+      { src: '/images/home/chilled-mango-shrimp-salad.jpg', position: 'center 75%' },
     ],
   },
   {
     title: 'Tacos',
     body: 'Soft tortillas piled high with seafood, crisp slaw, and a squeeze of lime.',
     images: [
-      '/images/home/seafood-tacos-plate.jpg',
-      '/images/home/seafood-tacos-close-up.jpg',
+      { src: '/images/home/seafood-tacos-plate.jpg' },
+      { src: '/images/home/seafood-tacos-close-up.jpg' },
     ],
   },
   {
     title: 'Burgers',
     body: 'Juicy, handmade burgers served with golden fries and house-made dips.',
     images: [
-      '/images/home/gourmet-burger-and-fries.jpg',
-      '/images/home/burger-basket-close-up.jpg',
+      { src: '/images/home/gourmet-burger-and-fries.jpg', position: 'center 85%' },
+      { src: '/images/home/burger-basket-close-up.jpg', position: 'center 65%' },
     ],
   },
   {
     title: 'Pasta',
     body: 'Silky handmade pasta tossed with shrimp in a rich tomato sauce.',
     images: [
-      '/images/home/shrimp-pasta-plate.jpg',
-      '/images/home/shrimp-pasta-garnished.jpg',
+      { src: '/images/home/shrimp-pasta-plate.jpg', position: 'center 80%' },
+      { src: '/images/home/shrimp-pasta-garnished.jpg', position: 'center 80%' },
     ],
   },
   {
     title: 'Desserts',
     body: 'Rich chocolate brownie, warm from the kitchen, topped with a scoop of ice cream.',
     images: [
-      '/images/home/chocolate-brownie-dessert.jpg',
-      '/images/home/brownie-ice-cream-dessert.jpg',
+      { src: '/images/home/chocolate-brownie-dessert.jpg', position: 'center 80%' },
+      { src: '/images/home/brownie-ice-cream-dessert.jpg', position: 'center 80%' },
     ],
   },
 ]
@@ -88,12 +103,13 @@ function DishRow({ dish, reverse }: { dish: Dish; reverse?: boolean }) {
       {/* Image with functional mini slider */}
       <div className={reverse ? 'md:order-1' : ''}>
         <div className="group relative aspect-[4/3] w-full overflow-hidden bg-neutral-200/80 shadow-lg">
-          {dish.images.map((src, i) => (
+          {dish.images.map((img, i) => (
             <img
-              key={src}
-              src={src}
+              key={img.src}
+              src={img.src}
               alt={dish.title}
               loading="lazy"
+              style={{ objectPosition: img.position ?? 'center' }}
               className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 group-hover:scale-[1.02] ${
                 i === imgIndex ? 'opacity-100' : 'opacity-0'
               }`}
