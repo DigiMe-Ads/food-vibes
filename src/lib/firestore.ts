@@ -289,10 +289,15 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   hours: 'Open daily, 7:30 AM – 11:00 PM',
   socials: { facebook: '', instagram: '', x: '', youtube: '' },
   galleryImages: [
+    '/images/gallery/food-vibes-signage.jpg',
     '/images/gallery/chocolate-dessert-plate.jpg',
+    '/images/gallery/bar-shelf-bottles.jpg',
     '/images/gallery/bar-cocktail-lineup.jpg',
+    '/images/gallery/restaurant-interior-corridor.jpg',
     '/images/home/sri-lankan-appetizer-platter.jpg',
+    '/images/gallery/lounge-seating-area.jpg',
     '/images/home/gourmet-burger-and-fries.jpg',
+    '/images/gallery/wood-fired-pizza-oven.jpg',
   ],
 }
 

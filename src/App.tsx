@@ -3,6 +3,7 @@ import ScrollToTop from './components/ScrollToTop'
 import HomePage from './pages/Home/homepage'
 import AboutPage from './pages/About/aboutpage'
 import MenuPage from './pages/Menu/menupage'
+import GalleryPage from './pages/Gallery/gallerypage'
 import ReservationPage from './pages/Reservation/reservationpage'
 import ContactPage from './pages/Contact/contactpage'
 import AdminPage from './pages/Admin/adminpage'
@@ -15,6 +16,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/menu" element={<MenuPage />} />
+        <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/contact" element={<ContactPage />} />
         {/* Not linked from the public nav — restaurant staff only */}
