@@ -16,6 +16,7 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { getFirestore, collection, addDoc, doc, setDoc } from 'firebase/firestore'
+import { MENU_ITEMS as MENU_SOURCE } from '../src/data/menuItems.mjs'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCiso7WQXk_4TL7avP4ELtDgdcWfiXEML4',
@@ -26,25 +27,14 @@ const firebaseConfig = {
   appId: '1:740073824031:web:cd71408e5eee90bcf09a2a',
 }
 
-const MENU_ITEMS = [
-  { title: 'Hummus & Falafel Flatbread', price: '$7.00', description: 'Warm flatbread topped with crispy falafel, whipped hummus, and a scatter of pomegranate seeds.', category: 'Starters', tags: ['Vegetarian'], images: ['/images/home/sri-lankan-appetizer-platter.jpg'] },
-  { title: 'Herb-Crusted Catch Stack', price: '$9.50', description: 'Pan-seared catch of the day layered over spiced eggplant and lentil ragu, finished with fresh herbs.', category: 'Starters', tags: ["Chef's Pick"], images: ['/images/menu/herb-crusted-fish-starter.jpg'] },
-  { title: "Chef's Sharing Platter", price: '$15.00', description: 'A little bit of everything — soup, spiced shrimp, crispy bites, and our signature dips. Perfect for the table.', category: 'Starters', tags: ['Serves 2+'], images: ['/images/menu/chefs-sharing-platter.jpg'] },
-  { title: 'Tropical Papaya Salad', price: '$9.00', description: 'Fresh papaya, mango, and crisp vegetables tossed in a bright citrus dressing.', category: 'Salads & Soups', tags: ['Vegetarian', 'Gluten-Free'], images: ['/images/menu/tropical-papaya-salad.jpg'] },
-  { title: 'Chilled Shrimp Salad', price: '$11.50', description: 'Poached shrimp over garden greens with pomegranate, citrus, and fresh herbs.', category: 'Salads & Soups', tags: ['Gluten-Free'], images: ['/images/menu/chilled-shrimp-salad.jpg'] },
-  { title: 'Roasted Pumpkin Soup', price: '$6.50', description: 'Silky pumpkin soup finished with cream and fresh herbs, served with warm bread on the side.', category: 'Salads & Soups', tags: ['Vegetarian'], images: ['/images/home/pumpkin-soup-with-bread.jpg'] },
-  { title: 'Seafood Tacos', price: '$12.00', description: 'Soft tortillas piled with fresh catch, crisp slaw, and a bright lime crema.', category: 'Tacos & Handhelds', tags: ['Spicy'], images: ['/images/home/seafood-tacos-plate.jpg', '/images/home/seafood-tacos-close-up.jpg'] },
-  { title: 'Food Vibes Burger', price: '$13.50', description: 'Juicy house-made patty, melted cheese, and all the fixings, served with golden fries.', category: 'Tacos & Handhelds', tags: ["Chef's Pick"], images: ['/images/home/gourmet-burger-and-fries.jpg', '/images/home/burger-basket-close-up.jpg'] },
-  { title: 'Shrimp Pasta Rose', price: '$16.00', description: 'Handmade pasta tossed with shrimp in a rich tomato-cream sauce.', category: 'Mains', images: ['/images/home/shrimp-pasta-plate.jpg', '/images/home/shrimp-pasta-garnished.jpg'] },
-  { title: 'Pan-Seared Catch of the Day', price: '$18.50', description: "Today's catch, seared to order and finished with a squeeze of lime.", category: 'Mains', tags: ['Gluten-Free'], images: ['/images/menu/pan-seared-fish.jpg'] },
-  { title: 'Sizzling Wok Special', price: '$15.00', description: 'Fresh vegetables and your choice of protein, flame-tossed tableside for maximum flavor.', category: 'Mains', tags: ["Chef's Pick", 'Spicy'], images: ['/images/menu/sizzling-wok-flambe.jpg'] },
-  { title: 'Molten Chocolate Brownie', price: '$7.50', description: 'Warm chocolate brownie with a scoop of vanilla ice cream and a dark chocolate drizzle.', category: 'Desserts', tags: ['Vegetarian'], images: ['/images/home/chocolate-brownie-dessert.jpg', '/images/home/brownie-ice-cream-dessert.jpg'] },
-  { title: 'Watermelon Mint Cooler', price: '$5.00', description: 'Fresh watermelon juice with mint and a hint of lime.', category: 'Drinks & Cocktails', images: ['/images/menu/watermelon-mint-cooler.jpg'] },
-  { title: 'Cucumber Lime Cooler', price: '$5.50', description: 'Refreshing cucumber and lime soda, served over ice.', category: 'Drinks & Cocktails', images: ['/images/menu/cucumber-lime-cooler.jpg'] },
-  { title: 'Iced Mocha Shake', price: '$5.50', description: 'Cold brew coffee blended with chocolate and cream, served over ice.', category: 'Drinks & Cocktails', images: ['/images/menu/iced-mocha-shake.jpg'] },
-  { title: 'Signature Sunset', price: '$8.50', description: 'Our house frozen margarita, layered with a berry reduction and a salted rim.', category: 'Drinks & Cocktails', tags: ["Chef's Pick"], images: ['/images/menu/signature-sunset-cocktail.jpg'] },
-  { title: 'Smoked Pineapple Mojito', price: '$9.00', description: 'A frozen mint mojito finished with charred pineapple and a wisp of smoke.', category: 'Drinks & Cocktails', images: ['/images/menu/smoked-pineapple-mojito.jpg'] },
-].map((item, i) => ({ ...item, order: i }))
+// Real menu lives in src/data/menuItems.mjs (shared with the app). Add the
+// `order` field so the site can sort items within each category.
+const MENU_ITEMS = MENU_SOURCE.map((item, i) => ({
+  ...item,
+  description: item.description ?? '',
+  images: item.images ?? [],
+  order: i,
+}))
 
 const TESTIMONIALS = [
   { title: 'The best restaurant!', body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsam aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.', name: 'Oscar Oldman', date: '2021-02-02' },

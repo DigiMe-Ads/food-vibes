@@ -17,25 +17,52 @@ import {
 } from 'firebase/firestore'
 import type { Timestamp } from 'firebase/firestore'
 import { db } from '../firebase'
+import { DEFAULT_MENU_ITEMS } from '../data/menu'
 
 // ---------------------------------------------------------------------------
 // Types
 
 export type MenuCategory =
-  | 'Starters'
+  // Food
+  | 'Appetizers'
   | 'Salads & Soups'
-  | 'Tacos & Handhelds'
-  | 'Mains'
+  | 'Tacos & Sandwiches'
+  | 'Manakish & Saj'
+  | 'Pizza'
+  | 'Pasta'
+  | 'From the Sea'
+  | 'Grilled & Steaks'
+  | 'Sri Lankan'
+  | 'Burgers'
+  | 'Kids'
   | 'Desserts'
-  | 'Drinks & Cocktails'
+  // Drinks
+  | 'Soft Drinks'
+  | 'Juices & Shakes'
+  | 'Mocktails'
+  | 'Cocktails'
+  | 'Beer, Wine & Spirits'
+  | 'Coffee'
 
 export const MENU_CATEGORIES: MenuCategory[] = [
-  'Starters',
+  'Appetizers',
   'Salads & Soups',
-  'Tacos & Handhelds',
-  'Mains',
+  'Tacos & Sandwiches',
+  'Manakish & Saj',
+  'Pizza',
+  'Pasta',
+  'From the Sea',
+  'Grilled & Steaks',
+  'Sri Lankan',
+  'Burgers',
+  'Kids',
   'Desserts',
-  'Drinks & Cocktails',
+  'Soft Drinks',
+  'Juices & Shakes',
+  'Mocktails',
+  'Cocktails',
+  'Beer, Wine & Spirits',
+  'Coffee',
 ]
 
 export type MenuItem = {
@@ -126,7 +153,14 @@ function useCollection<T>(name: string, order: [string, 'asc' | 'desc']) {
 }
 
 export function useMenuItems() {
-  return useCollection<MenuItem>('menuItems', ['order', 'asc'])
+  const res = useCollection<MenuItem>('menuItems', ['order', 'asc'])
+  // Fall back to the bundled real menu when Firestore has no items yet, so the
+  // menu shows out of the box. Once items exist in Firestore (added via /admin
+  // or the seed script), those take over.
+  if (!res.loading && res.data.length === 0) {
+    return { data: DEFAULT_MENU_ITEMS, loading: false }
+  }
+  return res
 }
 
 export function useTestimonials() {

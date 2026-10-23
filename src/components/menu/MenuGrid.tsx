@@ -4,72 +4,79 @@ import { MENU_CATEGORIES, useMenuItems, type MenuItem } from '../../lib/firestor
 
 const CATEGORIES = ['All', ...MENU_CATEGORIES] as const
 
-function MenuCard({ item }: { item: MenuItem }) {
-  const ref = useReveal<HTMLDivElement>()
-  const [imgIndex, setImgIndex] = useState(0)
-  const images = item.images && item.images.length > 0 ? item.images : ['']
+function Tags({ tags }: { tags?: string[] }) {
+  if (!tags || tags.length === 0) return null
+  return (
+    <span className="ml-2 inline-flex flex-wrap gap-1.5 align-middle">
+      {tags.map((tag) => (
+        <span
+          key={tag}
+          className={`px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-label ${
+            tag === "Chef's Pick"
+              ? 'bg-gold text-white'
+              : 'bg-neutral-100 text-neutral-500'
+          }`}
+        >
+          {tag}
+        </span>
+      ))}
+    </span>
+  )
+}
+
+function MenuRow({ item }: { item: MenuItem }) {
+  const cover = item.images && item.images[0]
 
   return (
-    <article
-      ref={ref}
-      className="reveal group flex flex-col overflow-hidden border border-neutral-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/5"
-    >
-      <div className="relative aspect-[4/3] overflow-hidden bg-neutral-200/80">
-        {images.map((src, i) => (
-          <img
-            key={src + i}
-            src={src}
-            alt={item.title}
-            loading="lazy"
-            className={`absolute inset-0 h-full w-full object-cover transition-all duration-500 group-hover:scale-105 ${
-              i === imgIndex ? 'opacity-100' : 'opacity-0'
-            }`}
-          />
-        ))}
-
-        {item.tags && item.tags.length > 0 && (
-          <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
-            {item.tags.map((tag) => (
-              <span
-                key={tag}
-                className={`px-2 py-1 text-[10px] font-semibold uppercase tracking-label shadow-sm ${
-                  tag === "Chef's Pick" ? 'bg-gold text-white' : 'bg-white/90 text-ink'
-                }`}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {images.length > 1 && (
-          <div className="absolute bottom-3 left-3 flex items-center gap-1.5">
-            {images.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`Show ${item.title} photo ${i + 1}`}
-                onClick={(e) => {
-                  e.preventDefault()
-                  setImgIndex(i)
-                }}
-                className={`h-1.5 w-1.5 rounded-full transition-colors ${
-                  i === imgIndex ? 'bg-white' : 'bg-white/50 hover:bg-white/80'
-                }`}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div className="flex flex-1 flex-col p-6">
-        <div className="flex items-baseline justify-between gap-3">
-          <h3 className="font-serif text-xl leading-snug text-ink">{item.title}</h3>
-          <span className="shrink-0 font-serif text-lg text-gold">{item.price}</span>
+    <div className="mb-7 flex break-inside-avoid gap-4">
+      {cover && (
+        <img
+          src={cover}
+          alt={item.title}
+          loading="lazy"
+          onError={(e) => e.currentTarget.remove()}
+          className="h-16 w-16 shrink-0 rounded-lg object-cover shadow-sm"
+        />
+      )}
+      <div className="min-w-0 flex-1">
+        <div className="flex items-baseline gap-2">
+          <h3 className="font-serif text-lg leading-snug text-ink">
+            {item.title}
+            <Tags tags={item.tags} />
+          </h3>
+          {/* dotted leader */}
+          <span className="mb-1 min-w-4 flex-1 border-b border-dotted border-neutral-300" />
+          <span className="shrink-0 font-serif text-base text-gold">{item.price}</span>
         </div>
-        <p className="mt-3 flex-1 text-sm leading-relaxed text-neutral-500">{item.description}</p>
+        {item.description && (
+          <p className="mt-1 max-w-prose text-sm leading-relaxed text-neutral-500">
+            {item.description}
+          </p>
+        )}
       </div>
-    </article>
+    </div>
+  )
+}
+
+function MenuSection({ title, items }: { title: string; items: MenuItem[] }) {
+  const ref = useReveal<HTMLDivElement>()
+  if (items.length === 0) return null
+
+  return (
+    <section ref={ref} className="reveal">
+      <div className="mb-8 flex items-center gap-4">
+        <h2 className="font-serif text-3xl text-ink sm:text-4xl">{title}</h2>
+        <span className="h-px flex-1 bg-neutral-200" />
+        <span className="text-xs font-medium uppercase tracking-label text-neutral-400">
+          {items.length} {items.length === 1 ? 'item' : 'items'}
+        </span>
+      </div>
+      <div className="gap-x-12 sm:columns-2">
+        {items.map((item) => (
+          <MenuRow key={item.id} item={item} />
+        ))}
+      </div>
+    </section>
   )
 }
 
@@ -77,7 +84,14 @@ export default function MenuGrid() {
   const { data: allItems, loading } = useMenuItems()
   const [active, setActive] = useState<(typeof CATEGORIES)[number]>('All')
 
-  const items = active === 'All' ? allItems : allItems.filter((item) => item.category === active)
+  // Which category sections to render (in menu order), each with its items.
+  const sections =
+    active === 'All'
+      ? MENU_CATEGORIES.map((cat) => ({
+          title: cat,
+          items: allItems.filter((item) => item.category === cat),
+        })).filter((s) => s.items.length > 0)
+      : [{ title: active, items: allItems.filter((item) => item.category === active) }]
 
   return (
     <section id="menu-grid" className="bg-white py-20 sm:py-24">
@@ -89,7 +103,7 @@ export default function MenuGrid() {
               key={cat}
               type="button"
               onClick={() => setActive(cat)}
-              className={`px-5 py-2.5 text-xs font-medium uppercase tracking-label transition-all duration-300 ${
+              className={`px-4 py-2 text-xs font-medium uppercase tracking-label transition-all duration-300 ${
                 active === cat
                   ? 'bg-ink text-white'
                   : 'border border-neutral-300 text-neutral-600 hover:border-gold hover:text-gold'
@@ -109,15 +123,14 @@ export default function MenuGrid() {
         ) : (
           <>
             <p className="mt-6 text-center text-xs text-neutral-400">
-              Showing {items.length} of {allItems.length} dishes
+              {active === 'All'
+                ? `${allItems.length} dishes & drinks`
+                : `${sections[0].items.length} in ${active}`}
             </p>
 
-            <div
-              key={active}
-              className="mt-10 grid animate-fade-in grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              {items.map((item) => (
-                <MenuCard key={item.id} item={item} />
+            <div key={active} className="mt-12 flex animate-fade-in flex-col gap-16">
+              {sections.map((s) => (
+                <MenuSection key={s.title} title={s.title} items={s.items} />
               ))}
             </div>
           </>

@@ -23,7 +23,7 @@ const EMPTY_DRAFT: Draft = {
   title: '',
   price: '',
   description: '',
-  category: 'Starters',
+  category: 'Appetizers',
   tags: '',
   images: [],
 }
