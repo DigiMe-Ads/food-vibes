@@ -71,8 +71,8 @@ export const MENU_ITEMS = [
   { title: 'Pork Chop with Balsamic Maple Glaze', price: 'LKR. 4,800', description: 'Local pork chop, French ratatouille, glazed pineapple & creamy pepper sauce.', category: 'Grilled & Steaks' },
   { title: 'Herb Infused Grilled Chicken Breast', price: 'LKR. 3,800', description: 'Served with French ratatouille & creamy pepper sauce.', category: 'Grilled & Steaks' },
   { title: 'Australian Striploin Steak', price: 'LKR. 9,900', description: 'Australian beef served with truffle mashed potatoes.', category: 'Grilled & Steaks' },
-  { title: 'Salmon Fish', price: 'LKR. 6,500', description: 'Served with mashed potatoes and a fresh lemon-dill rice or green salad.', category: 'Grilled & Steaks' },
-  { title: 'Lamb Rack', price: 'LKR. 3,800', description: 'Served with mashed potatoes and herb infused grilled vegetables.', category: 'Grilled & Steaks' },
+  { title: 'Salmon Fish', price: 'LKR. 6,500', description: 'Norwegian salmon fish served with mashed potatoes and a fresh lemon-dill rice or green salad.', category: 'Grilled & Steaks' },
+  { title: 'Lamb Rack', price: 'LKR. 5,800', description: 'Served with mashed potatoes and herb infused grilled vegetables.', category: 'Grilled & Steaks' },
 
   // ----- Sri Lankan -----
   { title: 'Sri Lankan Style Tofu Curry with Rice', price: 'LKR. 2,500', description: '', category: 'Sri Lankan', tags: ['Vegetarian'] },
@@ -194,4 +194,42 @@ export const MENU_ITEMS = [
   { title: 'Americano', price: 'LKR. 2,500', description: '', category: 'Coffee' },
   { title: 'Ice Americano', price: 'LKR. 2,500', description: '', category: 'Coffee' },
   { title: 'Affogato', price: 'LKR. 2,500', description: 'Espresso over vanilla ice cream.', category: 'Coffee' },
+
+  // ===========================================================================
+  // BREAKFAST MENU — served daily 8:00 AM – 1:00 PM (its own tab on the site).
+  // These carry `menu: 'breakfast'`; everything above is the all-day menu.
+  // ===========================================================================
+
+  // ----- Freshly Cooked -----
+  { title: 'Deluxe Breakfast', price: 'LKR. 2,600', description: 'Two fried eggs or scrambled, sausage, hash brown potato, grilled tomato, herb infused mushroom and multigrain bread.', category: 'Freshly Cooked', menu: 'breakfast' },
+  { title: 'Rise & Shine', price: 'LKR. 2,300', description: 'Triple egg cheese omelette accompanied by grilled tomato, sausage and multigrain bread.', category: 'Freshly Cooked', menu: 'breakfast' },
+  { title: 'Egg Benedict', price: 'LKR. 2,800', description: 'Spinach, crispy bacon, English muffin, hollandaise sauce.', category: 'Freshly Cooked', menu: 'breakfast' },
+  { title: 'Avocado Toast with Poached Egg', price: 'LKR. 2,400', description: 'Smashed avocado, cherry tomatoes, multigrain bread.', category: 'Freshly Cooked', menu: 'breakfast', tags: ['Vegetarian'] },
+  { title: 'Mango Banana Smoothie Bowl', price: 'LKR. 1,800', description: 'Mango and banana with local yogurt.', category: 'Freshly Cooked', menu: 'breakfast', tags: ['Vegetarian'] },
+  { title: 'Shakshuka', price: 'LKR. 2,200', description: 'Rich tomato and bell pepper sauce, coriander, multigrain bread.', category: 'Freshly Cooked', menu: 'breakfast', tags: ['Vegetarian'] },
+  { title: 'Croissant Breakfast Sandwich', price: 'LKR. 2,200', description: 'Spinach, crispy bacon, English muffin, hollandaise sauce.', category: 'Freshly Cooked', menu: 'breakfast' },
+  { title: 'Egg and Ham Breakfast', price: 'LKR. 2,200', description: 'Egg, cheese, ham.', category: 'Freshly Cooked', menu: 'breakfast' },
+  { title: 'Asian Combination', price: 'LKR. 2,600', description: 'String hopper or milk rice, choice of chicken or fish curry, served with dhal curry.', category: 'Freshly Cooked', menu: 'breakfast' },
+  { title: 'Classic French Toast', price: 'LKR. 1,600', description: 'Rich brioche bread served with chocolate or strawberry topping.', category: 'Freshly Cooked', menu: 'breakfast', tags: ['Vegetarian'] },
+
+  // ----- Fresh Juices (breakfast) -----
+  { title: 'Shine On', price: 'LKR. 1,200', description: 'Carrot, ginger, green apple.', category: 'Fresh Juices', menu: 'breakfast' },
+  { title: 'Lime Juice', price: 'LKR. 1,000', description: '', category: 'Fresh Juices', menu: 'breakfast' },
+  { title: 'Lime & Soda', price: 'LKR. 1,200', description: '', category: 'Fresh Juices', menu: 'breakfast' },
+  { title: 'Lime & Mint', price: 'LKR. 1,200', description: '', category: 'Fresh Juices', menu: 'breakfast' },
+  { title: 'Watermelon', price: 'LKR. 1,200', description: '', category: 'Fresh Juices', menu: 'breakfast' },
+  { title: 'Passion Fruit', price: 'LKR. 1,200', description: '', category: 'Fresh Juices', menu: 'breakfast' },
+  { title: 'Mango', price: 'LKR. 1,400', description: '', category: 'Fresh Juices', menu: 'breakfast' },
+  { title: 'Pineapple', price: 'LKR. 1,400', description: '', category: 'Fresh Juices', menu: 'breakfast' },
+  { title: 'Mix Juice', price: 'LKR. 1,500', description: 'Choice of 3 fruits.', category: 'Fresh Juices', menu: 'breakfast' },
+
+  // ----- Coffee (breakfast pricing) -----
+  { title: 'Cappuccino', price: 'LKR. 1,200', description: '', category: 'Coffee', menu: 'breakfast' },
+  { title: 'Latte (Hot / Cold)', price: 'LKR. 1,100', description: '', category: 'Coffee', menu: 'breakfast' },
+  { title: 'Flat White', price: 'LKR. 1,100', description: '', category: 'Coffee', menu: 'breakfast' },
+  { title: 'Espresso', price: 'LKR. 700', description: '', category: 'Coffee', menu: 'breakfast' },
+  { title: 'Double Espresso', price: 'LKR. 900', description: '', category: 'Coffee', menu: 'breakfast' },
+  { title: 'Americano', price: 'LKR. 1,000', description: '', category: 'Coffee', menu: 'breakfast' },
+  { title: 'Iced Americano', price: 'LKR. 1,100', description: '', category: 'Coffee', menu: 'breakfast' },
+  { title: 'Affogato', price: 'LKR. 1,300', description: '', category: 'Coffee', menu: 'breakfast' },
 ]

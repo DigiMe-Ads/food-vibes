@@ -43,7 +43,11 @@ export type MenuCategory =
   | 'Cocktails'
   | 'Beer, Wine & Spirits'
   | 'Coffee'
+  // Breakfast-only
+  | 'Freshly Cooked'
+  | 'Fresh Juices'
 
+/** All-day menu categories (shown on the main Menu tab + reservation picker). */
 export const MENU_CATEGORIES: MenuCategory[] = [
   'Appetizers',
   'Salads & Soups',
@@ -65,6 +69,13 @@ export const MENU_CATEGORIES: MenuCategory[] = [
   'Coffee',
 ]
 
+/** Breakfast menu categories (shown on the Breakfast tab, served 8 AM–1 PM). */
+export const BREAKFAST_CATEGORIES: MenuCategory[] = [
+  'Freshly Cooked',
+  'Fresh Juices',
+  'Coffee',
+]
+
 export type MenuItem = {
   id: string
   title: string
@@ -75,6 +86,8 @@ export type MenuItem = {
   /** First entry is the cover photo shown on the menu grid card. */
   images: string[]
   order: number
+  /** Which menu this belongs to; missing/absent is treated as 'all-day'. */
+  menu?: 'all-day' | 'breakfast'
 }
 
 export type Testimonial = {

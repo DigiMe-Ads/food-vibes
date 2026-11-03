@@ -22,4 +22,5 @@ export const DEFAULT_MENU_ITEMS: MenuItem[] = MENU_ITEMS.map((m, i) => ({
   category: m.category as MenuItem['category'],
   tags: m.tags,
   images: m.images ?? [],
+  menu: m.menu ?? 'all-day',
 }))

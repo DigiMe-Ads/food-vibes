@@ -1,8 +1,18 @@
 import { useState } from 'react'
 import { useReveal } from '../../hooks/useReveal'
-import { MENU_CATEGORIES, useMenuItems, type MenuItem } from '../../lib/firestore'
+import {
+  MENU_CATEGORIES,
+  BREAKFAST_CATEGORIES,
+  useMenuItems,
+  type MenuItem,
+} from '../../lib/firestore'
 
-const CATEGORIES = ['All', ...MENU_CATEGORIES] as const
+type Meal = 'all-day' | 'breakfast'
+
+const MEALS: { value: Meal; label: string }[] = [
+  { value: 'all-day', label: 'All Day' },
+  { value: 'breakfast', label: 'Breakfast' },
+]
 
 function Tags({ tags }: { tags?: string[] }) {
   if (!tags || tags.length === 0) return null
@@ -82,23 +92,62 @@ function MenuSection({ title, items }: { title: string; items: MenuItem[] }) {
 
 export default function MenuGrid() {
   const { data: allItems, loading } = useMenuItems()
-  const [active, setActive] = useState<(typeof CATEGORIES)[number]>('All')
+  const [meal, setMeal] = useState<Meal>('all-day')
+  const [active, setActive] = useState<string>('All')
+
+  const mealOf = (item: MenuItem) => item.menu ?? 'all-day'
+  const mealItems = allItems.filter((item) => mealOf(item) === meal)
+  const categories = meal === 'breakfast' ? BREAKFAST_CATEGORIES : MENU_CATEGORIES
+  const chips = ['All', ...categories]
 
   // Which category sections to render (in menu order), each with its items.
   const sections =
     active === 'All'
-      ? MENU_CATEGORIES.map((cat) => ({
-          title: cat,
-          items: allItems.filter((item) => item.category === cat),
-        })).filter((s) => s.items.length > 0)
-      : [{ title: active, items: allItems.filter((item) => item.category === active) }]
+      ? categories
+          .map((cat) => ({
+            title: cat,
+            items: mealItems.filter((item) => item.category === cat),
+          }))
+          .filter((s) => s.items.length > 0)
+      : [{ title: active, items: mealItems.filter((item) => item.category === active) }]
+
+  const switchMeal = (m: Meal) => {
+    setMeal(m)
+    setActive('All')
+  }
 
   return (
     <section id="menu-grid" className="bg-white py-20 sm:py-24">
       <div className="mx-auto max-w-6xl px-6">
+        {/* Meal toggle: All Day vs Breakfast */}
+        <div className="flex justify-center">
+          <div className="inline-flex rounded-full border border-neutral-300 p-1">
+            {MEALS.map((m) => (
+              <button
+                key={m.value}
+                type="button"
+                onClick={() => switchMeal(m.value)}
+                className={`rounded-full px-7 py-2.5 text-xs font-semibold uppercase tracking-label transition-all duration-300 ${
+                  meal === m.value
+                    ? 'bg-gold text-white shadow-sm'
+                    : 'text-neutral-500 hover:text-gold'
+                }`}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {meal === 'breakfast' && (
+          <p className="mt-4 text-center text-xs font-medium uppercase tracking-label text-neutral-400">
+            Served daily 8:00 AM – 1:00 PM
+          </p>
+        )}
+
         {/* Category filter */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-          {CATEGORIES.map((cat) => (
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          {chips.map((cat) => (
             <button
               key={cat}
               type="button"
@@ -116,19 +165,19 @@ export default function MenuGrid() {
 
         {loading ? (
           <p className="mt-10 text-center text-sm text-neutral-400">Loading menu…</p>
-        ) : allItems.length === 0 ? (
+        ) : mealItems.length === 0 ? (
           <p className="mt-10 text-center text-sm text-neutral-400">
-            The menu is being updated — check back shortly.
+            This menu is being updated — check back shortly.
           </p>
         ) : (
           <>
             <p className="mt-6 text-center text-xs text-neutral-400">
               {active === 'All'
-                ? `${allItems.length} dishes & drinks`
+                ? `${mealItems.length} ${meal === 'breakfast' ? 'breakfast items' : 'dishes & drinks'}`
                 : `${sections[0].items.length} in ${active}`}
             </p>
 
-            <div key={active} className="mt-12 flex animate-fade-in flex-col gap-16">
+            <div key={`${meal}-${active}`} className="mt-12 flex animate-fade-in flex-col gap-16">
               {sections.map((s) => (
                 <MenuSection key={s.title} title={s.title} items={s.items} />
               ))}

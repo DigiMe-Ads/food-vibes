@@ -31,7 +31,10 @@ export default function MenuItemPicker({ selected, onChange }: Props) {
     }
   }
 
-  const categoryItems = items.filter((item) => item.category === active)
+  // Reservations attach all-day dishes only (breakfast has its own service).
+  const categoryItems = items.filter(
+    (item) => (item.menu ?? 'all-day') === 'all-day' && item.category === active,
+  )
 
   return (
     <div className="border border-gold/30 bg-white/70 p-1 shadow-md shadow-black/5">

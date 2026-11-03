@@ -8,5 +8,6 @@ declare module '*/menuItems.mjs' {
     category: string
     tags?: string[]
     images?: string[]
+    menu?: 'all-day' | 'breakfast'
   }>
 }

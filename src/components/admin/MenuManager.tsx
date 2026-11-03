@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import {
   MENU_CATEGORIES,
+  BREAKFAST_CATEGORIES,
   addMenuItem,
   deleteMenuItem,
   updateMenuItem,
@@ -10,10 +11,13 @@ import {
 } from '../../lib/firestore'
 import ImagePicker from './ImagePicker'
 
+type Meal = 'all-day' | 'breakfast'
+
 type Draft = {
   title: string
   price: string
   description: string
+  menu: Meal
   category: MenuCategory
   tags: string
   images: string[]
@@ -23,16 +27,21 @@ const EMPTY_DRAFT: Draft = {
   title: '',
   price: '',
   description: '',
+  menu: 'all-day',
   category: 'Appetizers',
   tags: '',
   images: [],
 }
+
+const categoriesFor = (menu: Meal) =>
+  menu === 'breakfast' ? BREAKFAST_CATEGORIES : MENU_CATEGORIES
 
 function toDraft(item: MenuItem): Draft {
   return {
     title: item.title,
     price: item.price,
     description: item.description,
+    menu: item.menu ?? 'all-day',
     category: item.category,
     tags: (item.tags ?? []).join(', '),
     images: item.images ?? [],
@@ -67,6 +76,7 @@ export default function MenuManager() {
       title: draft.title.trim(),
       price: draft.price.trim(),
       description: draft.description.trim(),
+      menu: draft.menu,
       category: draft.category,
       tags: draft.tags
         .split(',')
@@ -127,13 +137,27 @@ export default function MenuManager() {
             className="w-full resize-none border border-neutral-200 px-4 py-3 text-sm focus:border-gold focus:outline-none"
           />
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <select
+              value={draft.menu}
+              onChange={(e) => {
+                const menu = e.target.value as Meal
+                const cats = categoriesFor(menu)
+                // Keep the category valid for the newly selected menu.
+                const category = cats.includes(draft.category) ? draft.category : cats[0]
+                setDraft({ ...draft, menu, category })
+              }}
+              className="border border-neutral-200 px-4 py-3 text-sm focus:border-gold focus:outline-none"
+            >
+              <option value="all-day">All Day</option>
+              <option value="breakfast">Breakfast</option>
+            </select>
             <select
               value={draft.category}
               onChange={(e) => setDraft({ ...draft, category: e.target.value as MenuCategory })}
               className="border border-neutral-200 px-4 py-3 text-sm focus:border-gold focus:outline-none"
             >
-              {MENU_CATEGORIES.map((c) => (
+              {categoriesFor(draft.menu).map((c) => (
                 <option key={c} value={c}>
                   {c}
                 </option>
@@ -219,6 +243,11 @@ export default function MenuManager() {
             <div className="min-w-0 flex-1">
               <p className="truncate font-serif text-lg text-ink">{item.title}</p>
               <p className="text-xs text-neutral-500">
+                {item.menu === 'breakfast' && (
+                  <span className="mr-1 font-semibold uppercase tracking-label text-gold">
+                    Breakfast ·
+                  </span>
+                )}
                 {item.category} &middot; {item.price}
               </p>
             </div>
