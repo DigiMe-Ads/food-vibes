@@ -70,7 +70,7 @@ export default function SiteSettingsPanel() {
                 className={`${fieldClass} sm:col-span-2`}
               />
               <input
-                placeholder="Hours (e.g. Open daily, 7:30 AM – 11:00 PM)"
+                placeholder="Hours (e.g. Open daily, 8:00 AM – 11:00 PM)"
                 value={draft.hours}
                 onChange={(e) => setDraft({ ...draft, hours: e.target.value })}
                 className={`${fieldClass} sm:col-span-2`}

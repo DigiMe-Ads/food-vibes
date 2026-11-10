@@ -34,6 +34,12 @@ export default function Hero() {
           Fresh seafood, Sri Lankan classics, and international favorites —
           tap a category below to explore.
         </p>
+        <a
+          href="#download-menu"
+          className="mt-8 inline-block animate-fade-up border border-white/60 px-7 py-3 text-xs font-semibold uppercase tracking-label text-white transition-colors [animation-delay:200ms] hover:border-gold hover:bg-gold"
+        >
+          Download Menu
+        </a>
       </div>
 
       {/* Scroll indicator */}

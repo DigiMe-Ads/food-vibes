@@ -330,10 +330,10 @@ export type SiteSettings = {
 }
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
-  phone: '+94 76 578 2468',
-  email: 'hello@foodvibes.com',
+  phone: '+94 771 444 956',
+  email: 'info@foodvibeslk.com',
   address: 'No. 216, Yaddehimulla, Unawatuna, Sri Lanka',
-  hours: 'Open daily, 7:30 AM – 11:00 PM',
+  hours: 'Open daily, 8:00 AM – 11:00 PM',
   socials: { facebook: '', instagram: '', x: '', youtube: '' },
   galleryImages: [
     '/images/gallery/food-vibes-signage.jpg',

@@ -123,6 +123,12 @@ export default function Footer() {
                 </dt>
                 <dd className="text-neutral-700">{settings.address}</dd>
               </div>
+              <div className="flex gap-6">
+                <dt className="w-20 shrink-0 whitespace-nowrap text-[11px] font-semibold uppercase tracking-label text-neutral-500">
+                  Open :
+                </dt>
+                <dd className="text-neutral-700">{settings.hours}</dd>
+              </div>
             </dl>
             <Link
               to="/contact"

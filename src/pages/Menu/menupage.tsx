@@ -1,6 +1,7 @@
 import Navbar from '../../components/Navbar'
 import Hero from '../../components/menu/Hero'
 import MenuGrid from '../../components/menu/MenuGrid'
+import DownloadMenus from '../../components/menu/DownloadMenus'
 import CallToAction from '../../components/menu/CallToAction'
 import Footer from '../../components/home/Footer'
 
@@ -11,6 +12,7 @@ export default function MenuPage() {
       <main>
         <Hero />
         <MenuGrid />
+        <DownloadMenus />
         <CallToAction />
       </main>
       <Footer />

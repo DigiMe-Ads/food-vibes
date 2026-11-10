@@ -34,21 +34,12 @@ function Tags({ tags }: { tags?: string[] }) {
   )
 }
 
+// Text-only rows: photos are deliberately not shown so every item lines up
+// the same way (only some items had a picture, which made the list uneven).
 function MenuRow({ item }: { item: MenuItem }) {
-  const cover = item.images && item.images[0]
-
   return (
-    <div className="mb-7 flex break-inside-avoid gap-4">
-      {cover && (
-        <img
-          src={cover}
-          alt={item.title}
-          loading="lazy"
-          onError={(e) => e.currentTarget.remove()}
-          className="h-16 w-16 shrink-0 rounded-lg object-cover shadow-sm"
-        />
-      )}
-      <div className="min-w-0 flex-1">
+    <div className="mb-7 break-inside-avoid">
+      <div className="min-w-0">
         <div className="flex items-baseline gap-2">
           <h3 className="font-serif text-lg leading-snug text-ink">
             {item.title}
