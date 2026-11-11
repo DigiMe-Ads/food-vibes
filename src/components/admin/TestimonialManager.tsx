@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {
   addTestimonial,
   deleteTestimonial,
+  replaceTestimonialsWithDefaults,
   updateTestimonial,
   useTestimonials,
   type Testimonial,
@@ -15,6 +16,9 @@ type Draft = {
   date: string
   featured: boolean
   avatar: string
+  rating: number
+  source: '' | 'Google' | 'TripAdvisor'
+  url: string
 }
 
 const EMPTY_DRAFT: Draft = {
@@ -24,6 +28,9 @@ const EMPTY_DRAFT: Draft = {
   date: '',
   featured: false,
   avatar: '',
+  rating: 5,
+  source: 'Google',
+  url: '',
 }
 
 function toDraft(t: Testimonial): Draft {
@@ -34,6 +41,9 @@ function toDraft(t: Testimonial): Draft {
     date: t.date,
     featured: !!t.featured,
     avatar: t.avatar ?? '',
+    rating: t.rating ?? 0,
+    source: t.source ?? '',
+    url: t.url ?? '',
   }
 }
 
@@ -67,7 +77,11 @@ export default function TestimonialManager() {
       name: draft.name.trim(),
       date: draft.date.trim(),
       featured: draft.featured,
-      avatar: draft.avatar || undefined,
+      // Firestore rejects `undefined`, so optional fields are only included when set.
+      ...(draft.avatar ? { avatar: draft.avatar } : {}),
+      ...(draft.rating ? { rating: draft.rating } : {}),
+      ...(draft.source ? { source: draft.source } : {}),
+      ...(draft.url.trim() ? { url: draft.url.trim() } : {}),
     }
     try {
       if (editingId === 'new') {
@@ -81,6 +95,24 @@ export default function TestimonialManager() {
     }
   }
 
+  // Testimonials currently stored in Firestore (the bundled defaults that
+  // show when the collection is empty have ids starting with "default-").
+  const storedIds = testimonials.filter((t) => !t.id.startsWith('default-')).map((t) => t.id)
+  const [replacing, setReplacing] = useState(false)
+
+  const loadGoogleReviews = async () => {
+    const msg = storedIds.length
+      ? `Delete all ${storedIds.length} current testimonials and replace them with the Food Vibes Google reviews?`
+      : 'Save the Food Vibes Google reviews here so you can edit them?'
+    if (!confirm(msg)) return
+    setReplacing(true)
+    try {
+      await replaceTestimonialsWithDefaults(storedIds)
+    } finally {
+      setReplacing(false)
+    }
+  }
+
   const remove = async (id: string) => {
     if (!confirm('Delete this testimonial?')) return
     await deleteTestimonial(id)
@@ -91,16 +123,26 @@ export default function TestimonialManager() {
       <div className="flex items-center justify-between">
         <h2 className="font-serif text-2xl text-ink">Testimonials</h2>
         {!draft && (
-          <button type="button" onClick={startAdd} className="btn-solid px-5 py-2.5 text-xs">
-            + Add Testimonial
-          </button>
+          <div className="flex flex-wrap items-center justify-end gap-3">
+            <button
+              type="button"
+              onClick={loadGoogleReviews}
+              disabled={replacing}
+              className="border border-neutral-300 px-5 py-2.5 text-xs font-semibold uppercase tracking-label text-neutral-600 transition-colors hover:border-gold hover:text-gold disabled:opacity-60"
+            >
+              {replacing ? 'Loading…' : 'Replace with Google reviews'}
+            </button>
+            <button type="button" onClick={startAdd} className="btn-solid px-5 py-2.5 text-xs">
+              + Add Testimonial
+            </button>
+          </div>
         )}
       </div>
 
       {draft && (
         <div className="mt-6 space-y-4 border border-neutral-200 bg-white p-6">
           <input
-            placeholder="Headline (e.g. The best restaurant!)"
+            placeholder="Headline (optional, e.g. The best restaurant!)"
             value={draft.title}
             onChange={(e) => setDraft({ ...draft, title: e.target.value })}
             className="w-full border border-neutral-200 px-4 py-3 text-sm focus:border-gold focus:outline-none"
@@ -120,9 +162,39 @@ export default function TestimonialManager() {
               className="border border-neutral-200 px-4 py-3 text-sm focus:border-gold focus:outline-none"
             />
             <input
-              placeholder="Date (e.g. 02.02.21)"
+              placeholder="Date (YYYY-MM-DD, e.g. 2025-12-24)"
               value={draft.date}
               onChange={(e) => setDraft({ ...draft, date: e.target.value })}
+              className="border border-neutral-200 px-4 py-3 text-sm focus:border-gold focus:outline-none"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-[auto_auto_1fr]">
+            <select
+              value={draft.rating}
+              onChange={(e) => setDraft({ ...draft, rating: Number(e.target.value) })}
+              className="border border-neutral-200 px-4 py-3 text-sm focus:border-gold focus:outline-none"
+            >
+              <option value={0}>No stars</option>
+              {[5, 4, 3, 2, 1].map((n) => (
+                <option key={n} value={n}>
+                  {'★'.repeat(n)} ({n})
+                </option>
+              ))}
+            </select>
+            <select
+              value={draft.source}
+              onChange={(e) => setDraft({ ...draft, source: e.target.value as Draft['source'] })}
+              className="border border-neutral-200 px-4 py-3 text-sm focus:border-gold focus:outline-none"
+            >
+              <option value="">No source</option>
+              <option value="Google">Google</option>
+              <option value="TripAdvisor">TripAdvisor</option>
+            </select>
+            <input
+              placeholder="Link to the review (optional)"
+              value={draft.url}
+              onChange={(e) => setDraft({ ...draft, url: e.target.value })}
               className="border border-neutral-200 px-4 py-3 text-sm focus:border-gold focus:outline-none"
             />
           </div>
@@ -146,7 +218,7 @@ export default function TestimonialManager() {
             <button
               type="button"
               onClick={save}
-              disabled={saving || !draft.title.trim() || !draft.name.trim()}
+              disabled={saving || !draft.body.trim() || !draft.name.trim()}
               className="btn-solid px-6 py-2.5 text-xs disabled:opacity-60"
             >
               {saving ? 'Saving…' : 'Save'}
@@ -164,9 +236,11 @@ export default function TestimonialManager() {
 
       <div className="mt-8 space-y-2">
         {loading && <p className="text-sm text-neutral-400">Loading…</p>}
-        {!loading && testimonials.length === 0 && (
+        {!loading && storedIds.length === 0 && (
           <p className="text-sm text-neutral-400">
-            No testimonials yet. Run the seed script, or add one above.
+            Nothing saved yet — the site is showing the built-in Google reviews
+            below. Click &ldquo;Replace with Google reviews&rdquo; to save them
+            here so you can edit them.
           </p>
         )}
         {testimonials.map((t) => (
@@ -175,11 +249,14 @@ export default function TestimonialManager() {
               {t.avatar && <img src={t.avatar} alt="" className="h-full w-full object-cover" />}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate font-serif text-lg text-ink">{t.title}</p>
+              <p className="truncate font-serif text-lg text-ink">{t.title || t.body}</p>
               <p className="text-xs text-neutral-500">
-                {t.name} &middot; {t.date} {t.featured && '· Featured'}
+                {t.rating ? `${'★'.repeat(t.rating)} · ` : ''}
+                {t.name} &middot; {t.date}
+                {t.source && ` · ${t.source}`} {t.featured && '· Featured'}
               </p>
             </div>
+            {!t.id.startsWith('default-') && (<>
             <button
               type="button"
               onClick={() => startEdit(t)}
@@ -194,6 +271,7 @@ export default function TestimonialManager() {
             >
               Delete
             </button>
+            </>)}
           </div>
         ))}
       </div>

@@ -18,6 +18,7 @@ import {
 import type { Timestamp } from 'firebase/firestore'
 import { db } from '../firebase'
 import { DEFAULT_MENU_ITEMS } from '../data/menu'
+import { DEFAULT_REVIEWS } from '../data/reviews.mjs'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -98,6 +99,12 @@ export type Testimonial = {
   date: string
   featured?: boolean
   avatar?: string
+  /** 1–5 stars; shown as stars on the card when set. */
+  rating?: number
+  /** Where the review was posted, shown as a badge on the card. */
+  source?: 'Google' | 'TripAdvisor'
+  /** Optional link to the original review. */
+  url?: string
 }
 
 export type SelectedDish = { title: string; qty: number }
@@ -177,7 +184,30 @@ export function useMenuItems() {
 }
 
 export function useTestimonials() {
-  return useCollection<Testimonial>('testimonials', ['date', 'desc'])
+  const res = useCollection<Testimonial>('testimonials', ['date', 'desc'])
+  // Fall back to the bundled real Google reviews until the admin adds their
+  // own (same pattern as the menu).
+  if (!res.loading && res.data.length === 0) {
+    return { data: DEFAULT_TESTIMONIALS, loading: false }
+  }
+  return res
+}
+
+export const DEFAULT_TESTIMONIALS: Testimonial[] = DEFAULT_REVIEWS.map((r, i) => ({
+  id: `default-review-${i}`,
+  ...r,
+}))
+
+/** Admin: wipe the testimonials collection and load the bundled Google reviews. */
+export async function replaceTestimonialsWithDefaults(existingIds: string[]) {
+  await Promise.all(existingIds.map((id) => deleteDoc(doc(db, 'testimonials', id))))
+  for (const r of DEFAULT_REVIEWS) {
+    await addDoc(collection(db, 'testimonials'), stripUndefined(r))
+  }
+}
+
+function stripUndefined<T extends object>(obj: T): T {
+  return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined)) as T
 }
 
 export function useReservations() {
@@ -325,6 +355,13 @@ export type SiteSettings = {
   email: string
   address: string
   hours: string
+  /** Review summary shown above the testimonials (edit in Site Settings). */
+  googleRating: string
+  googleReviewCount: string
+  googleUrl: string
+  tripadvisorRating: string
+  tripadvisorReviewCount: string
+  tripadvisorUrl: string
   socials: { facebook: string; instagram: string; x: string; youtube: string }
   galleryImages: string[]
 }
@@ -334,6 +371,13 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   email: 'info@foodvibeslk.com',
   address: 'No. 216, Yaddehimulla, Unawatuna, Sri Lanka',
   hours: 'Open daily, 8:00 AM – 11:00 PM',
+  googleRating: '4.7',
+  googleReviewCount: '341',
+  googleUrl:
+    'https://www.google.com/maps/search/?api=1&query=Food+Vibes+Unawatuna&query_place_id=ChIJs77fixBz4ToRZ0ot8MCdJlE',
+  tripadvisorRating: '4.8',
+  tripadvisorReviewCount: '36',
+  tripadvisorUrl: 'https://www.tripadvisor.com/--d26769019.html',
   socials: { facebook: '', instagram: '', x: '', youtube: '' },
   galleryImages: [
     '/images/gallery/food-vibes-signage.jpg',

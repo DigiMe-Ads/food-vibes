@@ -79,6 +79,55 @@ export default function SiteSettingsPanel() {
           </div>
 
           <div>
+            <p className="mb-1 text-xs font-semibold uppercase tracking-label text-neutral-500">
+              Review Ratings
+            </p>
+            <p className="mb-3 text-xs text-neutral-400">
+              Shown above the reviews on the home page. Update the numbers now
+              and then from your Google and TripAdvisor pages. Leave a rating
+              blank to hide that platform.
+            </p>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-[1fr_1fr_2fr]">
+              <input
+                placeholder="Google rating (e.g. 4.7)"
+                value={draft.googleRating}
+                onChange={(e) => setDraft({ ...draft, googleRating: e.target.value })}
+                className={fieldClass}
+              />
+              <input
+                placeholder="Google review count"
+                value={draft.googleReviewCount}
+                onChange={(e) => setDraft({ ...draft, googleReviewCount: e.target.value })}
+                className={fieldClass}
+              />
+              <input
+                placeholder="Google Maps link"
+                value={draft.googleUrl}
+                onChange={(e) => setDraft({ ...draft, googleUrl: e.target.value })}
+                className={fieldClass}
+              />
+              <input
+                placeholder="TripAdvisor rating (e.g. 4.8)"
+                value={draft.tripadvisorRating}
+                onChange={(e) => setDraft({ ...draft, tripadvisorRating: e.target.value })}
+                className={fieldClass}
+              />
+              <input
+                placeholder="TripAdvisor review count"
+                value={draft.tripadvisorReviewCount}
+                onChange={(e) => setDraft({ ...draft, tripadvisorReviewCount: e.target.value })}
+                className={fieldClass}
+              />
+              <input
+                placeholder="TripAdvisor link"
+                value={draft.tripadvisorUrl}
+                onChange={(e) => setDraft({ ...draft, tripadvisorUrl: e.target.value })}
+                className={fieldClass}
+              />
+            </div>
+          </div>
+
+          <div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-label text-neutral-500">
               Social Links (leave blank to hide)
             </p>

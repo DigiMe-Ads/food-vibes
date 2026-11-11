@@ -17,6 +17,7 @@ import { initializeApp } from 'firebase/app'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { getFirestore, collection, addDoc, doc, setDoc } from 'firebase/firestore'
 import { MENU_ITEMS as MENU_SOURCE } from '../src/data/menuItems.mjs'
+import { DEFAULT_REVIEWS } from '../src/data/reviews.mjs'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCiso7WQXk_4TL7avP4ELtDgdcWfiXEML4',
@@ -36,20 +37,20 @@ const MENU_ITEMS = MENU_SOURCE.map((item, i) => ({
   order: i,
 }))
 
-const TESTIMONIALS = [
-  { title: 'The best restaurant!', body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsam aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.', name: 'Oscar Oldman', date: '2021-02-02' },
-  { title: 'It was very delicious!', body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsam aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.', name: 'Emma Newman', date: '2021-02-02', featured: true },
-  { title: "I'm delighted!", body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsam aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.', name: 'Viktoria Freeman', date: '2022-01-15' },
-  { title: 'A hidden gem!', body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsam aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.', name: 'Daniel Cross', date: '2022-01-15' },
-  { title: 'Unforgettable evening!', body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsam aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.', name: 'Sophie Bennett', date: '2022-03-22', featured: true },
-  { title: 'Worth every visit!', body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsam aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.', name: 'Liam Carter', date: '2022-06-09' },
-]
+// Real Google reviews, shared with the app (src/data/reviews.mjs).
+const TESTIMONIALS = DEFAULT_REVIEWS
 
 const SITE_SETTINGS = {
   phone: '+94 771 444 956',
   email: 'info@foodvibeslk.com',
   address: 'No. 216, Yaddehimulla, Unawatuna, Sri Lanka',
   hours: 'Open daily, 8:00 AM – 11:00 PM',
+  googleRating: '4.7',
+  googleReviewCount: '341',
+  googleUrl: 'https://www.google.com/maps/search/?api=1&query=Food+Vibes+Unawatuna&query_place_id=ChIJs77fixBz4ToRZ0ot8MCdJlE',
+  tripadvisorRating: '4.8',
+  tripadvisorReviewCount: '36',
+  tripadvisorUrl: 'https://www.tripadvisor.com/--d26769019.html',
   socials: { facebook: '', instagram: '', x: '', youtube: '' },
   galleryImages: [
     '/images/gallery/chocolate-dessert-plate.jpg',
