@@ -183,14 +183,24 @@ export function useMenuItems() {
   return res
 }
 
+/** Leftover template testimonials ("Lorem ipsum…") from the original seed. */
+const isPlaceholder = (t: Testimonial) => /lorem ipsum/i.test(t.body)
+
+/**
+ * Testimonials for the public site. Placeholder (lorem ipsum) docs are
+ * ignored, and if nothing real is left in Firestore the bundled real
+ * Google/TripAdvisor reviews are shown instead (same pattern as the menu).
+ */
 export function useTestimonials() {
   const res = useCollection<Testimonial>('testimonials', ['date', 'desc'])
-  // Fall back to the bundled real Google reviews until the admin adds their
-  // own (same pattern as the menu).
-  if (!res.loading && res.data.length === 0) {
-    return { data: DEFAULT_TESTIMONIALS, loading: false }
-  }
-  return res
+  if (res.loading) return res
+  const real = res.data.filter((t) => !isPlaceholder(t))
+  return { data: real.length > 0 ? real : DEFAULT_TESTIMONIALS, loading: false }
+}
+
+/** Admin: everything actually stored in Firestore, placeholders included. */
+export function useStoredTestimonials() {
+  return useCollection<Testimonial>('testimonials', ['date', 'desc'])
 }
 
 export const DEFAULT_TESTIMONIALS: Testimonial[] = DEFAULT_REVIEWS.map((r, i) => ({

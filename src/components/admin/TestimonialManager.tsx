@@ -4,7 +4,7 @@ import {
   deleteTestimonial,
   replaceTestimonialsWithDefaults,
   updateTestimonial,
-  useTestimonials,
+  useStoredTestimonials,
   type Testimonial,
 } from '../../lib/firestore'
 import ImagePicker from './ImagePicker'
@@ -48,7 +48,7 @@ function toDraft(t: Testimonial): Draft {
 }
 
 export default function TestimonialManager() {
-  const { data: testimonials, loading } = useTestimonials()
+  const { data: testimonials, loading } = useStoredTestimonials()
   const [editingId, setEditingId] = useState<string | null>(null)
   const [draft, setDraft] = useState<Draft | null>(null)
   const [saving, setSaving] = useState(false)
@@ -102,8 +102,8 @@ export default function TestimonialManager() {
 
   const loadGoogleReviews = async () => {
     const msg = storedIds.length
-      ? `Delete all ${storedIds.length} current testimonials and replace them with the Food Vibes Google reviews?`
-      : 'Save the Food Vibes Google reviews here so you can edit them?'
+      ? `Delete all ${storedIds.length} current testimonials and replace them with the 11 real Google & TripAdvisor reviews?`
+      : 'Save the 11 real Google & TripAdvisor reviews here so you can edit them?'
     if (!confirm(msg)) return
     setReplacing(true)
     try {
@@ -130,7 +130,7 @@ export default function TestimonialManager() {
               disabled={replacing}
               className="border border-neutral-300 px-5 py-2.5 text-xs font-semibold uppercase tracking-label text-neutral-600 transition-colors hover:border-gold hover:text-gold disabled:opacity-60"
             >
-              {replacing ? 'Loading…' : 'Replace with Google reviews'}
+              {replacing ? 'Loading…' : 'Load real reviews'}
             </button>
             <button type="button" onClick={startAdd} className="btn-solid px-5 py-2.5 text-xs">
               + Add Testimonial
@@ -238,9 +238,9 @@ export default function TestimonialManager() {
         {loading && <p className="text-sm text-neutral-400">Loading…</p>}
         {!loading && storedIds.length === 0 && (
           <p className="text-sm text-neutral-400">
-            Nothing saved yet — the site is showing the built-in Google reviews
-            below. Click &ldquo;Replace with Google reviews&rdquo; to save them
-            here so you can edit them.
+            Nothing saved yet — the site is showing the built-in Google &amp;
+            TripAdvisor reviews. Click &ldquo;Load real reviews&rdquo; to save
+            them here so you can edit them.
           </p>
         )}
         {testimonials.map((t) => (

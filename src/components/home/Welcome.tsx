@@ -13,6 +13,33 @@ function formatDate(date: string) {
   return new Date(+m[1], +m[2] - 1, +m[3]).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
 }
 
+// Long reviews start clamped with a "Read more" toggle so one big review
+// doesn't stretch every card on the row. Keeps the reviewer's line breaks.
+function ReviewText({ text }: { text: string }) {
+  const [open, setOpen] = useState(false)
+  const long = text.length > 280
+  return (
+    <div className="mt-4 flex-1">
+      <p
+        className={`whitespace-pre-line text-sm leading-relaxed text-neutral-500 ${
+          long && !open ? 'line-clamp-6' : ''
+        }`}
+      >
+        {text}
+      </p>
+      {long && (
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          className="mt-2 text-[11px] font-semibold uppercase tracking-label text-gold transition-colors hover:text-gold-dark"
+        >
+          {open ? 'Read less' : 'Read more'}
+        </button>
+      )}
+    </div>
+  )
+}
+
 function Stars({ rating }: { rating: number }) {
   return (
     <span className="flex gap-0.5 text-gold" aria-label={`${rating} out of 5 stars`}>
@@ -98,9 +125,7 @@ export default function Welcome() {
                         >
                           {t.rating && <Stars rating={t.rating} />}
                           {t.title && <h3 className="mt-3 font-serif text-2xl text-ink first:mt-0">{t.title}</h3>}
-                          <p className={`mt-4 flex-1 text-sm leading-relaxed text-neutral-500 ${t.source ? 'line-clamp-[8]' : ''}`}>
-                            {t.body}
-                          </p>
+                          <ReviewText text={t.body} />
                           <div className="mt-8 flex items-center justify-between">
                             <div className="flex items-center gap-3">
                               <Placeholder
